@@ -1,25 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Paper | KSD Project</title>
+
 <link rel="stylesheet" href="css/style.css">
+
+<!-- MathJax -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </head>
 
 <body>
 
+<nav>
+  <div class="logo">KSD</div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="theory.html">Theory</a>
+    <a href="implementation.html">Implementation</a>
+    <a href="resources.html">Resources</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Paper Breakdown</h1>
+  <h2>Kernelized Spatial Depth (KSD)</h2>
+  <p>
+    A structured reading of the core ideas, methodology,
+    and insights from the KSD framework.
+  </p>
+</section>
+
 <section>
-<h1>Paper Breakdown</h1>
 
-<h2>Kernelized Spatial Depth (KSD)</h2>
-<p>
-KSD extends spatial depth using kernel functions to capture nonlinear structure.
-</p>
+  <!-- INTRO -->
+  <div class="card">
+    <h2>Overview</h2>
 
-<h2>Key Insight</h2>
-<p>
-Traditional depth fails in non-convex data; KSD adapts using kernel similarity.
-</p>
+    <p>
+      The paper introduces <strong>Kernelized Spatial Depth (KSD)</strong>,
+      a generalization of spatial depth that incorporates kernel methods
+      to capture local structure in complex datasets.
+    </p>
+
+    <div class="highlight">
+      Key motivation: Classical depth functions fail to capture
+      non-convex and locally structured data distributions.
+    </div>
+  </div>
+
+  <!-- SPATIAL DEPTH -->
+  <div class="card">
+    <h2>Spatial Depth</h2>
+
+    <p>
+      Spatial depth provides a center-outward ordering of multivariate data.
+      Points closer to the center have higher depth, while outliers have lower depth.
+    </p>
+
+    <p>
+      \( D(x; X) = 1 - \left\| \frac{1}{n} \sum S(y - x) \right\| \)
+    </p>
+
+    <p>
+      However, spatial depth primarily reflects global structure and may fail
+      in datasets with nonlinear geometry.
+    </p>
+  </div>
+
+  <!-- KSD -->
+  <div class="card">
+    <h2>Kernelized Spatial Depth</h2>
+
+    <p>
+      KSD extends spatial depth by mapping data into a higher-dimensional
+      feature space using a kernel function.
+    </p>
+
+    <p>
+      This allows the method to incorporate similarity measures and capture
+      local geometric structure.
+    </p>
+
+    <div class="highlight">
+      Insight: Kernelization transforms a global depth measure into a
+      locally adaptive one.
+    </div>
+  </div>
+
+  <!-- OUTLIER DETECTION -->
+  <div class="card">
+    <h2>Outlier Detection Mechanism</h2>
+
+    <ul>
+      <li>Compute depth values for all observations</li>
+      <li>Define a threshold on depth</li>
+      <li>Points with low depth are classified as outliers</li>
+    </ul>
+
+    <p>
+      The method is simple yet powerful, requiring only a kernel choice
+      and a threshold parameter.
+    </p>
+  </div>
+
+  <!-- LIMITATIONS -->
+  <div class="card">
+    <h2>Limitations</h2>
+
+    <ul>
+      <li>Choice of kernel affects performance significantly</li>
+      <li>Threshold selection is non-trivial</li>
+      <li>Computational cost increases with dataset size</li>
+    </ul>
+  </div>
+
+  <!-- OUR UNDERSTANDING -->
+  <div class="card">
+    <h2>Our Understanding</h2>
+
+    <p>
+      KSD provides a powerful bridge between robust statistics and
+      machine learning. By incorporating kernel methods, it adapts
+      to complex data structures that traditional depth measures fail to capture.
+    </p>
+
+    <div class="highlight">
+      Most important takeaway: Outlier detection is not just about distance,
+      but about relative position within the data structure.
+    </div>
+  </div>
 
 </section>
+
+<footer>
+  <p>Kernelized Spatial Depth Project | ISI Kolkata</p>
+</footer>
 
 </body>
 </html>
