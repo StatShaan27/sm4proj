@@ -1,19 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Implementation | KSD Project</title>
+
 <link rel="stylesheet" href="css/style.css">
+
+<!-- MathJax -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </head>
 
 <body>
 
+<nav>
+  <div class="logo">KSD</div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="theory.html">Theory</a>
+    <a href="paper.html">Paper</a>
+    <a href="resources.html">Resources</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Implementation</h1>
+  <h2>From Theory to Data</h2>
+  <p>
+    Applying Kernelized Spatial Depth to real datasets
+    and analyzing outlier behavior in high-dimensional spaces.
+  </p>
+</section>
+
 <section>
-<h1>Implementation</h1>
 
-<p>Dataset: To be selected</p>
+  <!-- DATASET -->
+  <div class="card">
+    <h2>Dataset</h2>
 
-<p>We will implement KSD and analyze outliers.</p>
+    <p>
+      The dataset for this project is currently under selection.
+      It will be chosen to reflect meaningful real-world structure
+      and allow for clear evaluation of outlier detection methods.
+    </p>
+
+    <div class="highlight">
+      Goal: Identify a dataset where classical distance-based methods fail,
+      but depth-based approaches (especially KSD) provide improved insight.
+    </div>
+  </div>
+
+  <!-- METHODOLOGY -->
+  <div class="card">
+    <h2>Methodology</h2>
+
+    <h3>Step 1 — Preprocessing</h3>
+    <ul>
+      <li>Standardization of features</li>
+      <li>Handling missing values</li>
+      <li>Dimensionality considerations</li>
+    </ul>
+
+    <h3>Step 2 — Spatial Depth</h3>
+    <p>
+      Compute baseline spatial depth:
+    </p>
+
+    <p>
+      \( D(x; X) = 1 - \left\| \frac{1}{n} \sum S(y - x) \right\| \)
+    </p>
+
+    <h3>Step 3 — Kernelization</h3>
+    <p>
+      Apply kernel transformation to capture nonlinear structure.
+    </p>
+
+    <h3>Step 4 — Outlier Detection</h3>
+    <ul>
+      <li>Compute depth values</li>
+      <li>Define threshold</li>
+      <li>Classify low-depth points as outliers</li>
+    </ul>
+  </div>
+
+  <!-- EXPECTED ANALYSIS -->
+  <div class="card">
+    <h2>Planned Analysis</h2>
+
+    <ul>
+      <li>Comparison with classical distance-based methods</li>
+      <li>Behavior in high-dimensional settings</li>
+      <li>Effect of kernel choice</li>
+      <li>Sensitivity to threshold selection</li>
+    </ul>
+
+    <div class="highlight">
+      Key focus: Demonstrating how KSD captures local structure
+      that traditional methods fail to detect.
+    </div>
+  </div>
 
 </section>
+
+<footer>
+  <p>Kernelized Spatial Depth Project | ISI Kolkata</p>
+</footer>
 
 </body>
 </html>
