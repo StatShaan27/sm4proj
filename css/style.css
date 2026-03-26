@@ -3,12 +3,13 @@
 
 /* ROOT */
 :root {
-  --bg-dark: #0f172a;
-  --bg-card: rgba(255, 255, 255, 0.06);
+  --bg-dark: #0b1120;
+  --bg-card: rgba(255, 255, 255, 0.05);
   --text-main: #e5e7eb;
-  --text-muted: #9ca3af;
+  --text-muted: #94a3b8;
   --accent: #38bdf8;
-  --border: rgba(255, 255, 255, 0.15);
+  --accent-soft: #7dd3fc;
+  --border: rgba(255, 255, 255, 0.1);
 }
 
 /* RESET */
@@ -19,7 +20,13 @@
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
-  background: var(--bg-dark);
+
+  /* 🔥 layered gradient background */
+  background:
+    radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(99, 102, 241, 0.08), transparent 40%),
+    var(--bg-dark);
+
   color: var(--text-main);
   line-height: 1.75;
 }
@@ -28,8 +35,8 @@ body {
 nav {
   position: sticky;
   top: 0;
-  backdrop-filter: blur(10px);
-  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  background: rgba(11, 17, 32, 0.8);
   border-bottom: 1px solid var(--border);
   padding: 1rem 2rem;
   z-index: 20;
@@ -49,18 +56,20 @@ nav a:hover {
 
 /* HERO */
 .hero {
-  padding: 6rem 2rem 5rem;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(56, 189, 248, 0.15), transparent 40%),
-    var(--bg-dark);
-  border-bottom: 1px solid var(--border);
+  padding: 7rem 2rem 6rem;
   text-align: center;
+  border-bottom: 1px solid var(--border);
 }
 
 .hero h1 {
-  font-size: 3rem;
+  font-size: 3.2rem;
   margin-bottom: 0.5rem;
   letter-spacing: -0.03em;
+
+  /* 🔥 gradient text */
+  background: linear-gradient(90deg, #e0f2fe, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero h2 {
@@ -84,21 +93,29 @@ section {
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 2rem;
+  border-radius: 18px;
+  padding: 2.2rem;
   margin-bottom: 2rem;
-  backdrop-filter: blur(12px);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  backdrop-filter: blur(14px);
+
+  /* 🔥 deeper shadow */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+  transition: all 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
 }
 
 .card h2 {
   margin-top: 0;
   color: var(--accent);
+
+  /* subtle glow */
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
 }
 
 .card h3 {
@@ -112,15 +129,26 @@ section {
   gap: 1.5rem;
 }
 
-/* LINKS */
+/* 🔥 FIXED LINKS (NO MORE UGLY BLUE) */
 a {
-  color: var(--accent);
+  color: var(--accent-soft);
   text-decoration: none;
-  border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+  border-bottom: 1px solid rgba(125, 211, 252, 0.35);
+  transition: all 0.2s ease;
 }
 
 a:hover {
-  color: #7dd3fc;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* inside cards → even better contrast */
+.card a {
+  color: #93c5fd;
+}
+
+.card a:hover {
+  color: #60a5fa;
 }
 
 /* PIPELINE */
@@ -131,6 +159,25 @@ a:hover {
   justify-content: center;
   font-size: 18px;
   color: var(--text-muted);
+}
+
+/* SMALL ELEMENTS */
+.arrow {
+  color: var(--accent);
+}
+
+.pipeline-desc {
+  margin-top: 1rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.highlight {
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
 }
 
 /* FOOTER */
