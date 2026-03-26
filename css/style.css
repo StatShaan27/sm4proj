@@ -171,7 +171,11 @@ a:hover {
   color: var(--text-muted);
   font-size: 0.95rem;
 }
-
+.pdf-link::after {
+  content: " ↗";
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
 .highlight {
   margin-top: 1.5rem;
   padding: 1rem 1.2rem;
