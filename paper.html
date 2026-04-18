@@ -8,7 +8,6 @@
 
 <link rel="stylesheet" href="css/style.css">
 
-<!-- MathJax -->
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </head>
@@ -30,37 +29,40 @@
   <h1>Paper Breakdown</h1>
   <h2>Kernelized Spatial Depth (KSD)</h2>
   <p>
-    A structured reading of the core ideas, methodology,
-    and insights from the KSD framework.
+    Core ideas, mathematical structure, and practical implications
+    of the KSD framework.
   </p>
 </section>
 
 <section>
 
-  <!-- INTRO -->
+  <!-- PAPER LINK -->
   <div class="card">
-    <h2>Overview</h2>
-     <div class="card">
-    <h2>Final Report</h2>
+    <h2>Reference Paper</h2>
 
     <p>
-      The complete project report detailing theoretical foundations,
-      methodology, implementation, and results.
+      Original work introducing Kernelized Spatial Depth and its application
+      to nonlinear outlier detection.
     </p>
 
-    <a href="assets/pdf/paper.pdf" class="pdf-link" target="_blank" >
-      View/ Download Paper
+    <a href="assets/pdf/paper.pdf" class="pdf-link" target="_blank">
+      View / Download Paper
     </a>
   </div>
+
+  <!-- OVERVIEW -->
+  <div class="card">
+    <h2>Overview</h2>
+
     <p>
       The paper introduces <strong>Kernelized Spatial Depth (KSD)</strong>,
-      a generalization of spatial depth that incorporates kernel methods
-      to capture local structure in complex datasets.
+      extending classical spatial depth using kernel methods to capture
+      nonlinear geometric structure in data.
     </p>
 
     <div class="highlight">
-      Key motivation: Classical depth functions fail to capture
-      non-convex and locally structured data distributions.
+      Limitation addressed: Classical depth functions rely on global geometry
+      and fail in non-elliptical or multi-modal distributions.
     </div>
   </div>
 
@@ -69,8 +71,8 @@
     <h2>Spatial Depth</h2>
 
     <p>
-      Spatial depth provides a center-outward ordering of multivariate data.
-      Points closer to the center have higher depth, while outliers have lower depth.
+      Spatial depth provides a center-outward ordering of multivariate data,
+      enabling identification of outliers through low-depth regions.
     </p>
 
     <p>
@@ -78,8 +80,8 @@
     </p>
 
     <p>
-      However, spatial depth primarily reflects global structure and may fail
-      in datasets with nonlinear geometry.
+      However, this formulation primarily reflects global structure
+      and cannot adapt to nonlinear manifolds.
     </p>
   </div>
 
@@ -88,35 +90,52 @@
     <h2>Kernelized Spatial Depth</h2>
 
     <p>
-      KSD extends spatial depth by mapping data into a higher-dimensional
-      feature space using a kernel function.
+      KSD maps observations into a feature space using a positive definite kernel,
+      allowing depth to be computed in a transformed geometry.
     </p>
 
     <p>
-      This allows the method to incorporate similarity measures and capture
-      local geometric structure.
+      This enables the method to capture <strong>local structure</strong> and
+      detect outliers that are not far in Euclidean distance but are
+      structurally isolated.
     </p>
 
     <div class="highlight">
-      Insight: Kernelization transforms a global depth measure into a
-      locally adaptive one.
+      Key idea: Kernelization converts a global depth measure into a
+      locally adaptive similarity-based measure.
     </div>
   </div>
 
-  <!-- OUTLIER DETECTION -->
+  <!-- ALGORITHM -->
   <div class="card">
-    <h2>Outlier Detection Mechanism</h2>
+    <h2>Algorithmic Insight</h2>
 
     <ul>
-      <li>Compute depth values for all observations</li>
-      <li>Define a threshold on depth</li>
-      <li>Points with low depth are classified as outliers</li>
+      <li>Compute kernel matrix between all observations</li>
+      <li>Evaluate depth using pairwise kernel relationships</li>
+      <li>Classify points with depth below threshold as outliers</li>
     </ul>
 
     <p>
-      The method is simple yet powerful, requiring only a kernel choice
-      and a threshold parameter.
+      Computational complexity is \( O(n^2) \), making scalability
+      an important consideration.
     </p>
+  </div>
+
+  <!-- LINK TO YOUR PROJECT -->
+  <div class="card">
+    <h2>Connection to Our Project</h2>
+
+    <p>
+      The theoretical framework of KSD directly motivates our empirical analysis.
+      In practice, we observe that KSD identifies outliers with significantly
+      higher HbA1c levels compared to Mahalanobis depth.
+    </p>
+
+    <div class="highlight">
+      Interpretation: KSD captures clinically meaningful deviations that
+      are invisible under distance-based methods due to nonlinear structure.
+    </div>
   </div>
 
   <!-- LIMITATIONS -->
@@ -124,25 +143,25 @@
     <h2>Limitations</h2>
 
     <ul>
-      <li>Choice of kernel affects performance significantly</li>
+      <li>Performance depends on kernel choice and bandwidth</li>
       <li>Threshold selection is non-trivial</li>
       <li>Computational cost increases with dataset size</li>
     </ul>
   </div>
 
-  <!-- OUR UNDERSTANDING -->
+  <!-- FINAL UNDERSTANDING -->
   <div class="card">
-    <h2>Our Understanding</h2>
+    <h2>Our Interpretation</h2>
 
     <p>
-      KSD provides a powerful bridge between robust statistics and
-      machine learning. By incorporating kernel methods, it adapts
-      to complex data structures that traditional depth measures fail to capture.
+      KSD represents a shift from distance-based reasoning to
+      structure-aware analysis. Instead of asking how far a point is,
+      it evaluates how well the point aligns with the data geometry.
     </p>
 
     <div class="highlight">
-      Most important takeaway: Outlier detection is not just about distance,
-      but about relative position within the data structure.
+      Most important takeaway: Outliers are not always distant —
+      they are often structurally inconsistent.
     </div>
   </div>
 
