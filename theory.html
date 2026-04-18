@@ -44,7 +44,7 @@
     <ul>
       <li><a href="#outlier">Outlier Problem</a></li>
       <li><a href="#depth">Foundations of Data Depth and Multivariate Structure</a></li>
-      <li><a href="#axioms">Axioms of Depth</a></li>
+      <li><a href="#distance-depth">Distance-Based Depth Functions</a></li>
       <li><a href="#distance">Distance-Based Depth</a></li>
       <li><a href="#kernel">Kernel-Based Depth</a></li>
       <li><a href="#ksd">Kernelized Spatial Depth</a></li>
@@ -86,6 +86,131 @@
   </p>
 
 </div>
+
+
+  <div class="card" id="distance-depth">
+
+  <h2>Distance-Based Depth Functions</h2>
+
+  <p>
+    Let \( (E=\mathbb{R}^d) \). Depth based on distances measures outlyingness via distances from a chosen center.
+  </p>
+
+  <p><strong>\((L_2)\)-depth (spatial depth):</strong></p>
+
+  <p>
+    Defined by
+  </p>
+
+  <p>
+    \[
+    D^{L^2}(z\mid X)=\bigl(1+\mathbb{E}|z-X|\bigr)^{-1}.
+    \]
+  </p>
+
+  <p>
+    For a sample \( (x^1,\dots,x^n) \),
+  </p>
+
+  <p>
+    \[
+    D^{L^2}(z\mid x^1,\dots,x^n)=\left(1+\frac{1}{n}\sum_{i=1}^n |z-x^i|\right)^{-1}.
+    \]
+  </p>
+
+  <p>
+    Range is \( ((0,1]) \) with maximum \( (1) \). Upper level sets are convex. The depth vanishes at infinity (D3) and is maximized at the spatial median \( (z^*=\arg\min_z \mathbb{E}|z-X|) \), which coincides with the symmetry center under central symmetry. It satisfies monotonicity on rays (D4), quasiconcavity (D4con), and upper semicontinuity (D5). It depends continuously on \( (z) \) and converges under mild integrability and weak convergence \( (P_n\to P) \). However, it is not consistent with the dilation order, since dilation increases \( (\mathbb{E}|z-X|) \), hence decreases depth.
+  </p>
+
+  <p>
+    It is invariant under rigid motions (D1, D2iso), but not affine invariant. An affine invariant version uses the \( (M) \)-norm \( (|z|*M=\sqrt{z'M^{-1}z}) \) with a positive definite matrix \( (M) \), typically \( (S_X) \) satisfying affine equivariance \( (S*{AX+b}=AS_XA') \):
+  </p>
+
+  <p>
+    \[
+    D(z\mid X)=\bigl(1+\mathbb{E}|z-X|_{S_X}\bigr)^{-1}.
+    \]
+  </p>
+
+  <p>
+    Sample versions arise by replacing expectations with empirical averages. Common choices for \( (S_X) \) include the covariance matrix or robust estimators such as MVE or MCD.
+  </p>
+
+  <p><strong>Mahalanobis depth:</strong></p>
+
+  <p>
+    Let \( (c_X) \) be a location functional and \( (S_X) \) a positive definite scatter matrix satisfying affine equivariance. The generalized Mahalanobis depth is
+  </p>
+
+  <p>
+    \[
+    D^{\text{Mah}}(z\mid X)=\left(1+|z-c_X|*{S_X}^2\right)^{-1}.
+    \]
+  </p>
+
+  <p>
+    It satisfies D1 to D5. Upper level sets are ellipsoids
+  </p>
+
+  <p>
+    \[
+    D*\alpha^{\text{Mah}}(X)={z:|z-c_X|_{S_X}^2\le \alpha^{-1}-1},
+    \]
+  </p>
+
+  <p>
+    centered at \( (c_X) \). It is continuous in \( (z) \) and in \( (P) \). With \( (c_X=\mathbb{E}[X]) \), \( (S_X=\Sigma_X) \),
+  </p>
+
+  <p>
+    \[
+    D^{\text{Mah}}(z\mid X)=\left(1+(z-\mathbb{E}[X])'\Sigma_X^{-1}(z-\mathbb{E}[X])\right)^{-1},
+    \]
+  </p>
+
+  <p>
+    and its sample version replaces parameters by empirical estimates. Depth contours depend strongly on the choice of \( (S_X) \) (classical vs robust). Mahalanobis depth is determined by first two moments; it does not uniquely identify distributions beyond elliptical families, though within such families contour sets suffice.
+  </p>
+
+  <p><strong>Other depths (formulas and notation only):</strong></p>
+
+  <p><strong>Projection depth:</strong></p>
+
+  <p>
+    \[
+    D^{\text{proj}}(z\mid X)=\left(1+\sup_{p\in S^{d-1}} \frac{|\langle p,z\rangle-\operatorname{med}(\langle p,X\rangle)|}{\operatorname{Dmed}(\langle p,X\rangle)}\right)^{-1},
+    \]
+  </p>
+
+  <p>
+    where \( (S^{d-1}) \) is the unit sphere, \( (\langle p,X\rangle) \) denotes projection, \( (\operatorname{med}) \) is the univariate median, and \( (\operatorname{Dmed}) \) is the median absolute deviation.
+  </p>
+
+  <p><strong>Oja depth:</strong></p>
+
+  <p>
+    \[
+    D^{\text{Oja}}(z\mid X)=\left(1+\frac{\mathbb{E}\big[\operatorname{vol}_d(\operatorname{co}{z,X_1,\dots,X_d})\big]}{\sqrt{\det \Sigma_X}}\right)^{-1},
+    \]
+  </p>
+
+  <p>
+    where \( (X_1,\dots,X_d) \) are i.i.d. copies of \( (X) \), \( (\operatorname{co}) \) denotes convex hull, \( (\operatorname{vol}_d) \) the \( (d) \)-dimensional volume, and \( (\Sigma_X) \) a scatter matrix.
+  </p>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
 </section>
 
 <footer>
