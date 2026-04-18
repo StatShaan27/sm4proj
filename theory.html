@@ -680,8 +680,262 @@
   </p>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="card" id="kernel-theory">
+
+  <h2>Kernel Functions and RKHS Foundations</h2>
+
+  <p>
+    A <strong>kernel function</strong> \( (\kappa(x,z)) \) computes an inner product in an implicit feature space:
+  </p>
+
+  <p>
+    \[
+    \kappa(x,z)=\langle \phi(x),\phi(z)\rangle,
+    \]
+  </p>
+
+  <p>
+    where \( (\phi) \) is an embedding into a Hilbert space. Kernel evaluation on a finite set yields a <strong>positive semi-definite (PSD) matrix</strong>, motivating a characterization independent of explicit feature construction.
+  </p>
+
+  <h3>Finite positive semi-definite characterization</h3>
+
+  <p>
+    A function \( (\kappa: X\times X \to \mathbb{R}) \) is a kernel if it is <strong>symmetric</strong> and for every finite subset \( ({x_1,\dots,x_\ell}\subset X) \), the matrix \( (K_{ij}=\kappa(x_i,x_j)) \) is PSD. This definition does not require \( (X) \) to be a vector space.
+  </p>
+
+  <h3>Characterisation theorem</h3>
+
+  <p>
+    If \( (\kappa) \) is continuous (or defined on a finite domain), then
+  </p>
+
+  <p>
+    \[
+    \kappa(x,z)=\langle \phi(x),\phi(z)\rangle
+    \]
+  </p>
+
+  <p>
+    for some feature map \( (\phi) \) into a Hilbert space <strong>if and only if</strong> \( (\kappa) \) is finitely PSD.
+  </p>
+
+  <h3>Construction of the feature space (RKHS)</h3>
+
+  <p>
+    Define a function space
+  </p>
+
+  <p>
+    \[
+    \mathcal{F}=\left\{f(\cdot)=\sum_{i=1}^\ell \alpha_i \kappa(x_i,\cdot)\right\}.
+    \]
+  </p>
+
+  <p>
+    This space is closed under addition and scalar multiplication. Define the inner product:
+  </p>
+
+  <p>
+    \[
+    \langle f,g\rangle = \sum_{i=1}^\ell \sum_{j=1}^n \alpha_i \beta_j \kappa(x_i,z_j),
+    \]
+  </p>
+
+  <p>
+    for \( (f(\cdot)=\sum \alpha_i \kappa(x_i,\cdot)) \), \( (g(\cdot)=\sum \beta_j \kappa(z_j,\cdot)) \).
+  </p>
+
+  <ul>
+    <li>\( (\langle f,f\rangle = \alpha^T K \alpha \ge 0) \) (PSD property ensures validity)</li>
+    <li>The <strong>reproducing property</strong> holds:
+      \[
+      \langle f, \kappa(x,\cdot)\rangle = f(x).
+      \]
+    </li>
+  </ul>
+
+  <p>
+    Thus \( (\mathcal{F}) \) becomes a <strong>Reproducing Kernel Hilbert Space (RKHS)</strong> with feature map:
+  </p>
+
+  <p>
+    \[
+    \phi(x)=\kappa(x,\cdot).
+    \]
+  </p>
+
+  <h3>Mercer’s theorem</h3>
+
+  <p>
+    For \( (X\subset \mathbb{R}^n) \) compact and \( (\kappa) \) continuous, symmetric, and inducing a positive integral operator:
+  </p>
+
+  <p>
+    \[
+    (T_\kappa f)(\cdot)=\int_X \kappa(\cdot,x)f(x)\,dx,
+    \]
+  </p>
+
+  <p>
+    positivity implies the expansion:
+  </p>
+
+  <p>
+    \[
+    \kappa(x,z)=\sum_{j=1}^\infty \phi_j(x)\phi_j(z),
+    \]
+  </p>
+
+  <p>
+    with orthonormal \( ({\phi_j}) \). The series converges uniformly and \( (\sum |\phi_j|^2<\infty) \).
+  </p>
+
+  <h3>Translation-invariant kernels (example)</h3>
+
+  <p>
+    If \( (\kappa(x,z)=\kappa(x-z)) \), then it admits a Fourier expansion:
+  </p>
+
+  <p>
+    \[
+    \kappa(u)=\sum_{n=0}^\infty a_n \cos(nu),
+    \]
+  </p>
+
+  <p>
+    leading to feature maps based on orthogonal trigonometric functions.
+  </p>
+
+  <h3>Covariance interpretation</h3>
+
+  <p>
+    A kernel can be expressed as a covariance:
+  </p>
+
+  <p>
+    \[
+    \kappa_q(x,z)=\int f(x)f(z) q(f)\,df,
+    \]
+  </p>
+
+  <p>
+    for a distribution \( (q) \) over functions. This induces embedding
+  </p>
+
+  <p>
+    \[
+    \phi(x)=(f(x))_{f\in \mathcal{F}},
+    \]
+  </p>
+
+  <p>
+    with inner product weighted by \( (q) \).
+  </p>
+
+  <h3>Closure properties (kernel construction)</h3>
+
+  <p>If \( (\kappa_1,\kappa_2) \) are kernels, then so are:</p>
+
+  <ul>
+    <li>\( (\kappa_1+\kappa_2) \)</li>
+    <li>\( (a\kappa_1), (a>0) \)</li>
+    <li>\( (\kappa_1 \kappa_2) \) (Schur product)</li>
+    <li>\( (f(x)f(z)) \)</li>
+    <li>\( (\kappa_3(\phi(x),\phi(z))) \)</li>
+    <li>\( (x^T B z), (B\succeq 0) \)</li>
+  </ul>
+
+  <p>
+    These preserve PSD via matrix operations.
+  </p>
+
+  <h3>Derived kernels</h3>
+
+  <p>
+    If \( (\kappa_1) \) is a kernel and \( (p) \) a polynomial with positive coefficients:
+  </p>
+
+  <p>
+    \[
+    \kappa(x,z)=p(\kappa_1(x,z)), \quad \exp(\kappa_1(x,z)), \quad \exp(-|x-z|^2/(2\sigma^2))
+    \]
+  </p>
+
+  <p>
+    are kernels. The last is the <strong>Gaussian (RBF) kernel</strong>.
+  </p>
+
+  <h3>Feature space structure</h3>
+
+  <ul>
+    <li>Sum of kernels corresponds to <strong>concatenation</strong> of feature maps</li>
+    <li>Scaling corresponds to <strong>rescaling</strong></li>
+    <li>Product corresponds to <strong>tensor product features</strong></li>
+    <li>Powers \( (\kappa^s) \) generate features as all monomials of degree \( (s) \)</li>
+  </ul>
+
+  <h3>Gaussian kernel features</h3>
+
+  <p>
+    The Gaussian kernel corresponds to an <strong>infinite-dimensional feature space</strong>:
+  </p>
+
+  <p>
+    \[
+    \exp(x)=\sum_{i=0}^\infty \frac{x^i}{i!},
+    \]
+  </p>
+
+  <p>
+    implying all polynomial degrees are present with weights decreasing as \( (1/i!) \).
+  </p>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </section>
 
+
+
+
+
+
+
+
+
+  
 <footer>
   <p>Kernelized Spatial Depth Project | ISI Kolkata</p>
 </footer>
