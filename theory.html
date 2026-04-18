@@ -29,109 +29,118 @@
   <h1>Theory</h1>
   <h2>Foundations of Depth-Based Statistics</h2>
   <p>
-    Core concepts from robust statistics and multivariate depth
-    that underpin Kernelized Spatial Depth.
+    Formal definitions, depth functions, and theoretical framework
+    underlying Kernelized Spatial Depth.
   </p>
 </section>
 
 <section>
 
-  <!-- CHAPTER NAVIGATION -->
+  <!-- NAVIGATION -->
   <div class="card">
-    <h2>Book Chapters</h2>
-
-    <p>Select a chapter to explore:</p>
+    <h2>Structure</h2>
 
     <ul>
-      <li><a href="#ch1">1. Multivariate Median</a></li>
-      <li><a href="#ch2">2. Depth Statistics</a></li>
-      <li><a href="#ch3">3. Multivariate Extremes</a></li>
-      <li><a href="#ch4">4. High-Breakdown Estimators</a></li>
-      <li><a href="#ch5">5. Breakdown Points</a></li>
-      <li><a href="#ch6">6. α-Outliers</a></li>
-      <li><a href="#ch7">7. Outlier Identification</a></li>
-      <li><a href="#ch8">8. Compositional Data</a></li>
+      <li><a href="#outlier">Outlier Problem</a></li>
+      <li><a href="#depth">Data Depth</a></li>
+      <li><a href="#axioms">Axioms of Depth</a></li>
+      <li><a href="#distance">Distance-Based Depth</a></li>
+      <li><a href="#kernel">Kernel-Based Depth</a></li>
+      <li><a href="#ksd">Kernelized Spatial Depth</a></li>
+      <li><a href="#algorithm">Algorithm</a></li>
+      <li><a href="#testing">Statistical Testing</a></li>
+    </ul>
+  </div>
+
+  <!-- OUTLIER -->
+  <div class="card" id="outlier">
+    <h2>Outlier Detection Problem</h2>
+
+    <p><!-- To be filled --></p>
+
+    <p><!-- Mathematical formulation --></p>
+  </div>
+
+  <!-- DATA DEPTH -->
+  <div class="card" id="depth">
+    <h2>Data Depth</h2>
+
+    <p><!-- Definition --></p>
+
+    <p><!-- Interpretation --></p>
+  </div>
+
+  <!-- AXIOMS -->
+  <div class="card" id="axioms">
+    <h2>Axioms of Depth Functions</h2>
+
+    <ul>
+      <li><!-- Affine invariance --></li>
+      <li><!-- Maximality at center --></li>
+      <li><!-- Monotonicity --></li>
+      <li><!-- Vanishing at infinity --></li>
+    </ul>
+  </div>
+
+  <!-- DISTANCE DEPTH -->
+  <div class="card" id="distance">
+    <h2>Distance-Based Depth</h2>
+
+    <p><!-- General form --></p>
+
+    <p><!-- Mahalanobis depth --></p>
+
+    <p><!-- Limitations --></p>
+  </div>
+
+  <!-- KERNEL DEPTH -->
+  <div class="card" id="kernel">
+    <h2>Kernel-Based Depth</h2>
+
+    <p><!-- Kernel definition --></p>
+
+    <p><!-- Positive definite kernels --></p>
+
+    <p><!-- Interpretation --></p>
+  </div>
+
+  <!-- KSD -->
+  <div class="card" id="ksd">
+    <h2>Kernelized Spatial Depth (KSD)</h2>
+
+    <p><!-- Definition --></p>
+
+    <p><!-- Feature mapping --></p>
+
+    <p><!-- Sample version --></p>
+
+    <p><!-- Gaussian kernel --></p>
+  </div>
+
+  <!-- ALGORITHM -->
+  <div class="card" id="algorithm">
+    <h2>Algorithmic Framework</h2>
+
+    <p><!-- Description --></p>
+
+    <ul>
+      <li><!-- Kernel computation --></li>
+      <li><!-- Depth calculation --></li>
+      <li><!-- Thresholding --></li>
     </ul>
 
-    <div class="highlight">
-      These chapters form the theoretical backbone of robust
-      multivariate analysis and depth-based methods.
-    </div>
+    <p><!-- Complexity --></p>
   </div>
 
-  <!-- CORE CONCEPT -->
-  <div class="card">
-    <h2>Spatial Depth</h2>
+  <!-- STAT TEST -->
+  <div class="card" id="testing">
+    <h2>Statistical Testing</h2>
 
-    <p>
-      Spatial depth provides a center-outward ordering of multivariate data.
-      Points closer to the center have higher depth, while outliers have lower depth.
-    </p>
+    <p><!-- Wilcoxon test --></p>
 
-    <p>
-      \( D(x; X) = 1 - \left\| \frac{1}{n} \sum S(y - x) \right\| \)
-    </p>
+    <p><!-- Hypothesis --></p>
 
-    <p>
-      This measure forms the basis for many depth-based outlier detection methods.
-    </p>
-  </div>
-
-  <!-- ROBUSTNESS -->
-  <div class="card">
-    <h2>Robustness</h2>
-
-    <p>
-      Robust statistical methods aim to remain stable under contamination
-      and the presence of extreme observations.
-    </p>
-
-    <div class="highlight">
-      Key idea: A good estimator should not be overly sensitive to a small
-      fraction of corrupted data.
-    </div>
-  </div>
-
-  <!-- CHAPTER SECTIONS -->
-
-  <div class="card" id="ch1">
-    <h2>1. Multivariate Median</h2>
-    <p>Generalization of median to higher dimensions using depth concepts.</p>
-  </div>
-
-  <div class="card" id="ch2">
-    <h2>2. Depth Statistics</h2>
-    <p>Provides ordering of multivariate data without relying on distance.</p>
-  </div>
-
-  <div class="card" id="ch3">
-    <h2>3. Multivariate Extremes</h2>
-    <p>Study of extreme observations using conditional quantiles.</p>
-  </div>
-
-  <div class="card" id="ch4">
-    <h2>4. High-Breakdown Estimators</h2>
-    <p>Estimators that remain reliable even with large contamination.</p>
-  </div>
-
-  <div class="card" id="ch5">
-    <h2>5. Breakdown Points</h2>
-    <p>Maximum contamination an estimator can tolerate before failure.</p>
-  </div>
-
-  <div class="card" id="ch6">
-    <h2>6. α-Outliers</h2>
-    <p>Formal definition of outliers based on depth thresholds.</p>
-  </div>
-
-  <div class="card" id="ch7">
-    <h2>7. Outlier Identification</h2>
-    <p>Using robust estimators to detect anomalous observations.</p>
-  </div>
-
-  <div class="card" id="ch8">
-    <h2>8. Compositional Data</h2>
-    <p>Handling constrained multivariate data with robust methods.</p>
+    <p><!-- Interpretation --></p>
   </div>
 
 </section>
