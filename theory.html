@@ -504,6 +504,109 @@
 
 
   
+  <div class="card" id="ksd-algorithm">
+
+  <h2>KSD-Based Outlier Detection Algorithm</h2>
+
+  <p>
+    Let \( (\mathcal{X}={x_1,\dots,x_\ell}\subset \mathbb{R}^n) \) be observations, \( (\kappa) \) a kernel, and \( (t) \) a threshold. Data are generated from a mixture \( ((1-\alpha)F_{\text{good}}+\alpha F_{\text{outlier}}) \). The goal is to classify a new point \( (x) \) as an outlier using kernelized spatial depth (KSD). Computational cost per evaluation is \( (O(\ell^2)) \).
+  </p>
+
+  <p><strong>Algorithm (KSD-based outlier detection)</strong></p>
+
+  <ol>
+    <li>
+      Compute kernel matrix:
+      \[
+      K_{ij}=\kappa(x_i,x_j), \quad i,j=1,\dots,\ell.
+      \]
+    </li>
+
+    <li>
+      For input \( (x) \), compute for each \( (x_i) \):
+      \[
+      \zeta_i=\kappa(x,x_i), \quad
+      \delta_i=\sqrt{\kappa(x,x)+K_{ii}-2\zeta_i}.
+      \]
+      If \( (\delta_i=0) \), set \( (z_i=0) \); else \( (z_i=\delta_i^{-1}) \).
+    </li>
+
+    <li>
+      For all pairs \( ((i,j)) \):
+      \[
+      \tilde{K}_{ij}=\kappa(x,x)+K_{ij}-\zeta_i-\zeta_j.
+      \]
+    </li>
+
+    <li>
+      Compute KSD:
+      \[
+      D_\kappa(x\mid \mathcal{X})=1-\frac{1}{|\mathcal{X}(x)|-1}\sqrt{z^T \tilde{K} z}.
+      \]
+    </li>
+
+    <li>
+      Decision rule:
+      \[
+      x \text{ is an outlier if } D_\kappa(x\mid \mathcal{X}) \le t.
+      \]
+    </li>
+  </ol>
+
+  <h3>Kernel choice and parameter \( (\sigma) \)</h3>
+
+  <p>
+    For Gaussian kernel \( (\kappa(x,y)=\exp(-|x-y|^2/\sigma^2)) \), parameter \( (\sigma) \) controls locality:
+  </p>
+
+  <ul>
+    <li>
+      \( (\sigma \to \infty) \): KSD converges to spatial depth; all observations contribute equally (unit direction effect).
+    </li>
+    <li>
+      \( (\sigma \to 0) \): KSD becomes constant \( (1-\frac{\sqrt{2}}{2}) \) for all \( (x) \), making data non-informative.
+    </li>
+  </ul>
+
+  <p>
+    Thus, \( (\sigma) \) determines the trade-off between <strong>global</strong> (large \( (\sigma) \)) and <strong>local</strong> (small \( (\sigma) \)) structure. Proper choice yields contours aligned with data geometry.
+  </p>
+
+  <p>
+    A generalized Gaussian kernel is:
+  </p>
+
+  <p>
+    \[
+    \kappa(x,y)=\exp\big(-(x-y)^T \Sigma^{-1}(x-y)\big),
+    \]
+  </p>
+
+  <p>
+    with \( (\Sigma=\mathrm{Diag}(\sigma_1^2,\dots,\sigma_n^2)) \).
+  </p>
+
+  <h3>Estimation of scale parameters \( (\sigma_k) \)</h3>
+
+  <p>
+    (per coordinate \( (k) \)):
+  </p>
+
+  <ol>
+    <li>\( (\sigma_k=\mathrm{mean}_{i,j}|x_{ik}-x_{jk}|) \) (Gini difference).</li>
+    <li>\( (\sigma_k=\mathrm{median}_{i,j}|x_{ik}-x_{jk}|) \) (robust Gini).</li>
+    <li>\( (\sigma_k=\mathrm{mean}_i|x_{ik}-\mathrm{mean}_j x_{jk}|) \).</li>
+    <li>\( (\sigma_k=\mathrm{median}_i|x_{ik}-\mathrm{median}_j x_{jk}|) \) (MAD-type).</li>
+  </ol>
+
+  <p>
+    These provide dispersion estimates with increasing robustness; median-based versions are less sensitive to outliers.
+  </p>
+
+</div>
+
+
+
   
 </section>
 
