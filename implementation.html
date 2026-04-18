@@ -8,7 +8,6 @@
 
 <link rel="stylesheet" href="css/style.css">
 
-<!-- MathJax -->
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </head>
@@ -27,10 +26,10 @@
 
 <section class="hero">
   <h1>Implementation</h1>
-  <h2>From Theory to Data</h2>
+  <h2>From Theory to Real-World Data</h2>
   <p>
-    Applying Kernelized Spatial Depth to real datasets
-    and analyzing outlier behavior in high-dimensional spaces.
+    Applying Kernelized Spatial Depth to NHANES healthcare datasets
+    to detect hidden metabolic risk.
   </p>
 </section>
 
@@ -41,64 +40,99 @@
     <h2>Dataset</h2>
 
     <p>
-      The dataset for this project is currently under selection.
-      It will be chosen to reflect meaningful real-world structure
-      and allow for clear evaluation of outlier detection methods.
+      We use data from the <strong>National Health and Nutrition Examination Survey (NHANES)</strong>,
+      covering three cycles:
+    </p>
+
+    <ul>
+      <li>2015–2016 (n = 626)</li>
+      <li>2017–2018 (n = 639)</li>
+      <li>2021–2023 (n = 849)</li>
+    </ul>
+
+    <p>
+      Analysis is restricted to individuals aged ≥ 18 with
+      <strong>normal BMI (18.5–25)</strong>, focusing on detecting
+      hidden metabolic abnormalities.
     </p>
 
     <div class="highlight">
-      Goal: Identify a dataset where classical distance-based methods fail,
-      but depth-based approaches (especially KSD) provide improved insight.
+      Key variables: fasting glucose, HbA1c, triglycerides, HDL cholesterol, age.
     </div>
   </div>
 
-  <!-- METHODOLOGY -->
+  <!-- PREPROCESSING -->
   <div class="card">
-    <h2>Methodology</h2>
+    <h2>Preprocessing</h2>
 
-    <h3>Step 1 — Preprocessing</h3>
     <ul>
-      <li>Standardization of features</li>
-      <li>Handling missing values</li>
-      <li>Dimensionality considerations</li>
+      <li>Complete case filtering (remove missing values)</li>
+      <li>Restriction to normal BMI range</li>
+      <li>Z-score standardization of all variables</li>
     </ul>
 
-    <h3>Step 2 — Spatial Depth</h3>
     <p>
-      Compute baseline spatial depth:
+      Standardization ensures that no variable dominates due to scale differences.
     </p>
-
-    <p>
-      \( D(x; X) = 1 - \left\| \frac{1}{n} \sum S(y - x) \right\| \)
-    </p>
-
-    <h3>Step 3 — Kernelization</h3>
-    <p>
-      Apply kernel transformation to capture nonlinear structure.
-    </p>
-
-    <h3>Step 4 — Outlier Detection</h3>
-    <ul>
-      <li>Compute depth values</li>
-      <li>Define threshold</li>
-      <li>Classify low-depth points as outliers</li>
-    </ul>
   </div>
 
-  <!-- EXPECTED ANALYSIS -->
+  <!-- OUTLIER METHODS -->
   <div class="card">
-    <h2>Planned Analysis</h2>
+    <h2>Outlier Detection Methods</h2>
 
+    <h3>Mahalanobis Distance (MD)</h3>
     <ul>
-      <li>Comparison with classical distance-based methods</li>
-      <li>Behavior in high-dimensional settings</li>
-      <li>Effect of kernel choice</li>
-      <li>Sensitivity to threshold selection</li>
+      <li>Compute distance from mean using covariance structure</li>
+      <li>Outliers = top 5% of distances (95th percentile)</li>
+    </ul>
+
+    <h3>Kernelized Spatial Depth (KSD)</h3>
+    <ul>
+      <li>Gaussian kernel used</li>
+      <li>Bandwidth σ chosen via median distance</li>
+      <li>Outliers = bottom 5% of depth values</li>
     </ul>
 
     <div class="highlight">
-      Key focus: Demonstrating how KSD captures local structure
-      that traditional methods fail to detect.
+      KSD captures nonlinear structure, while MD assumes elliptical geometry.
+    </div>
+  </div>
+
+  <!-- ANALYSIS -->
+  <div class="card">
+    <h2>Statistical Analysis</h2>
+
+    <p>
+      We compare observations uniquely identified by each method:
+      <strong>KSD-only</strong> vs <strong>MD-only</strong>.
+    </p>
+
+    <p>
+      A one-sided Wilcoxon rank-sum test is used to evaluate:
+    </p>
+
+    <p>
+      \( H_0: HbA1c_{KSD} = HbA1c_{MD} \quad \text{vs} \quad H_1: HbA1c_{KSD} > HbA1c_{MD} \)
+    </p>
+
+    <div class="highlight">
+      Purpose: Determine whether KSD identifies clinically more extreme cases.
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card">
+    <h2>Results</h2>
+
+    <ul>
+      <li>Across all datasets, KSD-only outliers show higher HbA1c levels</li>
+      <li>Statistically significant differences (p &lt; 0.05 in all cases)</li>
+      <li>KSD identifies clinically meaningful deviations missed by MD</li>
+    </ul>
+
+    <div class="highlight">
+      Conclusion: Kernelized Spatial Depth provides superior detection of
+      hidden metabolic risk compared to Mahalanobis distance.
     </div>
   </div>
 
