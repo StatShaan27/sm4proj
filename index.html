@@ -8,7 +8,6 @@
 
 <link rel="stylesheet" href="css/style.css">
 
-<!-- MathJax -->
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </head>
@@ -31,8 +30,7 @@
   <h2>Kernelized Spatial Depth in High-Dimensional Data</h2>
 
   <p class="hero-sub">
-    A structured exploration of robust statistical depth methods,
-    kernel extensions, and their application to modern data analysis.
+    Identifying hidden metabolic risk using depth-based methods on real-world healthcare data.
   </p>
 </section>
 
@@ -42,21 +40,43 @@
     <h2>Project Overview</h2>
 
     <p>
-      This project investigates depth-based approaches to outlier detection,
-      with a focus on <strong>Kernelized Spatial Depth (KSD)</strong> and its
-      ability to capture nonlinear structure in high-dimensional data.
+      This project studies multivariate depth-based methods for outlier detection,
+      focusing on <strong>Mahalanobis Depth</strong> and 
+      <strong>Kernelized Spatial Depth (KSD)</strong>.
     </p>
 
     <p>
-      We bridge theoretical foundations from robust statistics with modern
-      kernel-based methods, culminating in practical implementation and analysis.
+      We apply these methods to <strong>NHANES healthcare data</strong>,
+      restricting attention to individuals with normal BMI to uncover
+      <strong>hidden metabolic risk</strong> not detected by conventional approaches.
     </p>
 
-    <!-- highlight block -->
     <div class="highlight">
-      Core idea: Transform spatial depth into a feature space using kernels,
-      enabling detection of complex, non-convex outliers.
+      Key result: KSD consistently identifies individuals with significantly higher HbA1c levels
+      than those detected by Mahalanobis depth (Wilcoxon test, p &lt; 0.05 across all datasets).
     </div>
+
+  </div>
+</section>
+
+<!-- METHODS SNAPSHOT -->
+<section>
+  <div class="card">
+    <h2>Methodological Framework</h2>
+
+    <ul>
+      <li>Standardization of clinical variables (glucose, HbA1c, triglycerides, HDL)</li>
+      <li>Outlier detection using Mahalanobis Distance (95th percentile)</li>
+      <li>Outlier detection using Kernelized Spatial Depth (bottom 5%)</li>
+      <li>Comparison of discordant outliers (KSD-only vs MD-only)</li>
+      <li>Statistical validation using one-sided Wilcoxon rank-sum test</li>
+    </ul>
+
+    <div class="highlight">
+      Core idea: Kernelization allows depth functions to capture nonlinear structure,
+      enabling detection of clinically meaningful outliers missed by distance-based methods.
+    </div>
+
   </div>
 </section>
 
@@ -69,25 +89,23 @@
     <div class="card">
       <h3>Archisman Bhattacharya</h3>
       <p>BS2408</p>
-      B.Stat II Year
+      <p>B.Stat, ISI Kolkata</p>
     </div>
 
     <div class="card">
       <h3>Mohammad Shaan</h3>
       <p>BS2419</p>
-      B.Stat II Year
+      <p>B.Stat, ISI Kolkata</p>
     </div>
 
     <div class="card">
       <h3>Mohd Hozaifa</h3>
       <p>BS2420</p>
-      B.Stat II Year
+      <p>B.Stat, ISI Kolkata</p>
     </div>
 
-    
   </div>
 </section>
-
 
 <footer>
   <p>Instructor: Shyamal K De | Indian Statistical Institute, Kolkata</p>
