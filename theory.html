@@ -42,9 +42,9 @@
     <h2>Structure</h2>
 
     <ul>
-      <li><a href="#outlier">Outlier Problem</a></li>
       <li><a href="#depth">Foundations of Data Depth and Multivariate Structure</a></li>
       <li><a href="#distance-depth">Distance-Based Depth Functions</a></li>
+      <li><a href="#central-regions">Depth-Trimmed Regions and Outlyingness</a></li>
       <li><a href="#distance">Distance-Based Depth</a></li>
       <li><a href="#kernel">Kernel-Based Depth</a></li>
       <li><a href="#ksd">Kernelized Spatial Depth</a></li>
@@ -200,7 +200,108 @@
 
 </div>
 
+<div class="card" id="central-regions">
 
+  <h2>Depth-Trimmed Regions and Outlyingness</h2>
+
+  <p>
+    For a probability distribution \( (P) \) and level \( (\alpha \in [0,1]) \), the <strong>upper level sets</strong>
+  </p>
+
+  <p>
+    \[
+    D_\alpha(P)={z\in E: D(z\mid P)\ge \alpha}
+    \]
+  </p>
+
+  <p>
+    form a <strong>nested family</strong> of sets (larger \( (\alpha) \) gives smaller sets). These are called <strong>depth-trimmed central regions</strong>.
+  </p>
+
+  <ul>
+    <li>
+      The <strong>deepest points</strong> are those achieving maximal depth:
+      \[
+      P_{\max}(P)={z: D(z\mid P)=\sup_{x} D(x\mid P)}.
+      \]
+    </li>
+
+    <li>
+      By D1 and D2, these regions are <strong>affine equivariant</strong> (stable under translation and linear transformations).
+    </li>
+
+    <li>
+      Their <strong>shape</strong> depends on the underlying distribution \( (P) \) (location, dispersion, geometry).
+    </li>
+  </ul>
+
+  <p>
+    There is a correspondence with <strong>convex set-valued statistics</strong>:
+  </p>
+
+  <p>
+    Given a family \( ({C_\alpha(P)}*{\alpha\in[0,1]}) \) of convex, closed, bounded sets, define
+  </p>
+
+  <p>
+    \[
+    D(z\mid P)=\sup{\alpha: z\in C*\alpha(P)}.
+    \]
+  </p>
+
+  <p>
+    This construction satisfies D1–D5 and D4con, hence yields a <strong>convex depth function</strong>. Thus, depth functions and central regions are equivalent representations.
+  </p>
+
+  <p>
+    A depth function induces a <strong>center-outward ordering</strong> of points: higher depth implies more central.
+  </p>
+
+  <p>
+    Define the associated <strong>outlyingness function</strong>:
+  </p>
+
+  <p>
+    \[
+    \text{Out}(z\mid X)=\frac{1}{D(z\mid X)}-1.
+    \]
+  </p>
+
+  <p><strong>Key properties:</strong></p>
+
+  <ul>
+    <li>
+      \( (\text{Out}(z\mid X)=0) \) at the center (maximum depth).
+    </li>
+
+    <li>
+      \( (\text{Out}(z\mid X)\to \infty) \) as \( (|z|\to\infty) \) (since depth \( (\to 0) \)).
+    </li>
+  </ul>
+
+  <p>
+    Equivalently,
+  </p>
+
+  <p>
+    \[
+    D(z\mid X) = \bigl(1+\text{Out}(z\mid X)\bigr)^{-1}.
+    \]
+  </p>
+
+  <p><strong>Interpretation:</strong></p>
+
+  <ul>
+    <li>
+      Points <strong>outside</strong> the central region \( (D_\alpha) \) satisfy
+      \[
+      D(z\mid X)<\alpha \;\Longleftrightarrow\; \text{Out}(z\mid X) > \frac{1}{\alpha}-1,
+      \]
+      hence are classified as <strong>outliers at level \( (\alpha) \)</strong>.
+    </li>
+  </ul>
+
+</div>
 
 
 
