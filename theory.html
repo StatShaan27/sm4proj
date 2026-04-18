@@ -43,7 +43,7 @@
 
     <ul>
       <li><a href="#outlier">Outlier Problem</a></li>
-      <li><a href="#depth">Data Depth</a></li>
+      <li><a href="#depth">Foundations of Data Depth and Multivariate Structure</a></li>
       <li><a href="#axioms">Axioms of Depth</a></li>
       <li><a href="#distance">Distance-Based Depth</a></li>
       <li><a href="#kernel">Kernel-Based Depth</a></li>
@@ -53,352 +53,39 @@
     </ul>
   </div>
 
-  <!-- OUTLIER -->
-  <div class="card" id="outlier">
-  <h2>Outlier Detection Problem</h2>
-
-  <p>
-    The problem of outlier detection can be stated as follows: given observations
-    \( X_1, \dots, X_n \in \mathbb{R}^d \) drawn from an unknown distribution \( P \),
-    possibly contaminated by a small fraction of observations from another distribution \( Q \),
-    identify the subset of indices corresponding to observations that do not conform to \( P \).
-  </p>
-
-  <p>
-    Formally, under a contamination model:
-  </p>
-
-  <p>
-    \( X_i \sim (1 - \varepsilon)P + \varepsilon Q, \quad 0 < \varepsilon \ll 1 \)
-  </p>
-
-  <p>
-    the task is to decide, based only on the sample, which \( X_i \)'s are generated from \( Q \).
-    The difficulty lies in the absence of a canonical definition of extremeness,
-    especially in higher dimensions where geometric intuition and distance-based
-    separation become less reliable.
-  </p>
-
-  <p>
-    The intuitive need for a depth function arises precisely from this lack of ordering in
-    \( \mathbb{R}^d \). In one dimension, outliers can be identified using the natural ordering
-    of the real line, but in higher dimensions no such total order exists.
-  </p>
-
-  <p>
-    A depth function provides a center-outward ranking of points, assigning higher values to
-    central observations and lower values to peripheral ones. This allows us to define outliers
-    as points with sufficiently small depth, thereby giving a principled, geometry-aware notion
-    of extremeness that generalizes univariate ideas like medians, quantiles, and tail behavior.
-  </p>
-
-</div>
-
-  <!-- DATA DEPTH -->
   <div class="card" id="depth">
-  <h2>Data Depth</h2>
+    <h2>Foundations of Data Depth and Multivariate Structure</h2>
+  <p>
+    Let \( (E) \) be a Banach space, \( (\mathcal{B}) \) its Borel \( (\sigma) \)-algebra, and \( (\mathcal{P}) \) a class of probability distributions on \( (\mathcal{B}) \), viewed as empirical distributions assigning equal mass \( (1/n) \) to \( (n) \) observations. A depth function is a mapping \( (D: E \times \mathcal{P} \to [0,1]) \), denoted \( (D(z\mid P)) \), or \( (D(z\mid X)) \) when \( (X\sim P) \), satisfying:
+  </p>
+
+  <p><strong>D1 Distribution invariance:</strong> \( (D(z+b\mid X+b)=D(z\mid X)) \) for all \( (b\in E) \).</p>
+
+  <p><strong>D2 Linear invariance:</strong> \( (D(Az\mid AX)=D(z\mid X)) \) for every bijective linear transformation \( (A:E\to E) \).</p>
+
+  <p><strong>D3 Null at infinity:</strong> \( (\lim_{|z|\to\infty} D(z\mid X)=0) \).</p>
+
+  <p><strong>D4 Monotonicity on rays:</strong> if \( (z^*) \) maximizes depth, then for any unit vector \( (r) \), the function \( (\alpha \mapsto D(z^*+\alpha r\mid X)) \) is non-increasing (weak sense).</p>
+
+  <p><strong>D5 Upper semicontinuity:</strong> upper level sets \( (D_\alpha(X)={z\in E: D(z\mid X)\ge \alpha}) \) are closed for all \( (\alpha) \).</p>
 
   <p>
-    A depth function assigns a notion of centrality to points with respect to a
-    probability distribution \( P \). Formally, a depth function is a map
+    D1 and D2 imply affine invariance. D3 and D4 ensure bounded, starshaped upper level sets with respect to a deepest point \( (z^*) \). D5 is a technical regularity condition. Under D4, if \( (X) \) is centrally symmetric about \( (z^*) \), then \( (D(z^*\mid X)) \) is maximal. Central symmetry means \( (X-z^*) \) and \( (z^*-X) \) have identical distributions. Compared to earlier formulations, these postulates do not require upper semicontinuity to ensure maximality at \( (z^*) \). Replacing D4 by D4con yields quasiconcavity, meaning all \( (D_\alpha(X)) \) are convex for \( (\alpha>0) \), defining convex depth. Convexity implies starshapedness and hence D4. D2 may be weakened to invariance under isometries (orthogonal invariance), or further to scale invariance \( (D(\lambda z\mid \lambda X)=D(z\mid X)) \) for \( (\lambda>0) \).
   </p>
 
   <p>
-    \( D : \mathbb{R}^d \times \mathcal{P}(\mathbb{R}^d) \to [0,1] \),
+    In practice, depth statistics are typically applied in Euclidean spaces \( (\mathbb{R}^d) \). For non-elliptical distributions, one considers distributions with affine dimension \( (d) \), i.e. convex hull of support equals \( (\mathbb{R}^d) \). A distribution is spherical if invariant under orthogonal transformations, and elliptical if \( (X=a+BY) \) with \( (Y) \) spherical. Elliptical distributions have upper level sets \( (D_\alpha(P)) \) forming ellipsoids determined by scatter matrix \( (BB') \). Any affine invariant depth satisfying D1 and D2 yields equivalent depth contours under ellipticity. If \( (P) \) is elliptical with unimodal radial density, there exists a transformation \( (\varphi) \) mapping it to a spherical distribution; thus any depth satisfying D1 and D2 is invariant under such transformations.
   </p>
 
   <p>
-    where larger values indicate greater centrality and smaller values indicate outlyingness.
-  </p>
-</div>
-
-
-<div class="card" id="axioms">
-  <h2>Axioms of Depth Functions</h2>
-
-  <p>A well-defined depth function typically satisfies the following axioms:</p>
-
-  <ol>
-    <li>
-      <strong>Affine invariance:</strong> For any nonsingular affine transformation
-      \( T(x) = Ax + b \),
-      \[
-      D(x;P) = D(Tx; P_T),
-      \]
-      where \( P_T \) is the pushforward of \( P \).
-    </li>
-
-    <li>
-      <strong>Maximality at center:</strong> If \( P \) has a center of symmetry \( \theta \), then
-      \[
-      D(\theta;P) = \sup_x D(x;P).
-      \]
-    </li>
-
-    <li>
-      <strong>Monotonicity relative to deepest point:</strong> Along any ray from a deepest point
-      \( \theta \), depth decreases monotonically.
-    </li>
-
-    <li>
-      <strong>Vanishing at infinity:</strong>
-      \[
-      D(x;P) \to 0 \quad \text{as } \|x\| \to \infty.
-      \]
-    </li>
-  </ol>
-</div>
-
-
-<div class="card" id="distance">
-  <h2>Distance-Based Depth</h2>
-
-  <p>
-    Distance-based depth functions quantify the centrality of a point
-    \( x \in \mathbb{R}^d \) by measuring its distance from a representative
-    location of the distribution.
+    Three principal constructions of multivariate depth are distinguished: based on distances from central points or volumes; based on centrality notions such as decreasing weighted means of order statistics; and based on simplices and halfspaces in \( (\mathbb{R}^d) \). These approaches differ in symmetry reflection, robustness to outliers, and scalability in higher dimensions. Depth contours in applications often exhibit near-equidistant behavior across levels.
   </p>
 
   <p>
-    A general form is:
+    Most multivariate depths are convex and affine invariant; some also exhibit spherical invariance. Depths differ in contour shape and in whether they uniquely determine the underlying distribution. A fundamental ordering is induced via dilation order: \( (X \preceq_d Y) \) if \( (E[\varphi(X)] \le E[\varphi(Y)]) \) for all convex \( (\varphi:\mathbb{R}^d\to\mathbb{R}) \), raising the question of concordance between depth-based and dilation-based orderings.
   </p>
-
-  <p>
-    \( D(x;P) = g\big(d(x, \theta(P))\big), \)
-  </p>
-
-  <p>
-    where \( d(\cdot,\cdot) \) is a metric, \( \theta(P) \) is a location functional,
-    and \( g \) is a decreasing function.
-  </p>
-
-  <p>
-    Examples include Mahalanobis depth, \( L_2 \) depth, and Oja depth.
-  </p>
-
-  <p>
-    The Mahalanobis depth is defined as:
-  </p>
-
-  <p>
-    \( D(x;P) = \left[ 1 + (x - \mu)^\top \Sigma^{-1} (x - \mu) \right]^{-1}. \)
-  </p>
-
-  <p>
-    While affine invariant, Mahalanobis depth is sensitive to outliers unless
-    robust estimators of \( \mu \) and \( \Sigma \) are used.
-  </p>
-</div>
-
-
-<div class="card" id="kernel">
-  <h2>Kernel-Based Depth</h2>
-
-  <p>
-    Kernel-based depth functions can be defined at the population level by replacing
-    empirical averages with expectations.
-  </p>
-
-  <p>
-    For a kernel \( K : \mathbb{R}^d \times \mathbb{R}^d \to \mathbb{R} \),
-  </p>
-
-  <p>
-    \( D(x;P) = \mathbb{E}_{X \sim P}[K(x,X)] = \int_{\mathbb{R}^d} K(x,y)\, dP(y). \)
-  </p>
-
-  <p>
-    A kernel \( K \) is positive definite if for any \( n \in \mathbb{N} \),
-    points \( x_1,\dots,x_n \), and coefficients \( c_1,\dots,c_n \),
-  </p>
-
-  <p>
-    \( \sum_{i=1}^n \sum_{j=1}^n c_i c_j K(x_i,x_j) \ge 0. \)
-  </p>
-
-  <p>
-    This formulation measures centrality via similarity to the distribution.
-  </p>
-</div>
-
-
-<div class="card" id="ksd">
-  <h2>Kernelized Spatial Depth (KSD)</h2>
-
-  <p>
-    Kernelized spatial depth extends classical spatial depth by incorporating
-    a positive definite kernel.
-  </p>
-
-  <p>
-    Let \( \phi : \mathbb{R}^d \to \mathcal{F} \) be a feature map such that
-    \( K(x,y) = \langle \phi(x), \phi(y) \rangle \).
-  </p>
-
-  <p>
-    The population definition is:
-  </p>
-
-  <p>
-    \( D(x;P) = 1 - \mathbb{E}_{X \sim P}
-    \left\| \frac{\phi(x) - \phi(X)}{\|\phi(x) - \phi(X)\|} \right\|. \)
-  </p>
-
-  <p>
-    The sample version is:
-  </p>
-
-  <p>
-    \( D(x;P_n) = 1 - \frac{1}{n+1} \sum_{i=1}^n
-    \frac{\phi(x) - \phi(X_i)}{\|\phi(x) - \phi(X_i)\|}. \)
-  </p>
-
-  <p>
-    Using the identity
-    \( \|\phi(x)-\phi(X_i)\|^2 = K(x,x) + K(X_i,X_i) - 2K(x,X_i) \),
-    the expression can be computed entirely in terms of kernel values.
-  </p>
-
-  <p>
-    A common choice is the Gaussian kernel:
-  </p>
-
-  <p>
-    \( K(x,y) = \exp\left(-\frac{\|x-y\|^2}{2\sigma^2}\right), \)
-  </p>
-
-  <p>
-    where \( \sigma > 0 \) is the bandwidth parameter.
-  </p>
-</div>
-
-  <!-- ALGORITHM -->
-  <div class="card" id="algorithm">
-  <h2>Algorithmic Aspects</h2>
-
-  <p>
-    In outlier detection, the false alarm probability (false positive rate)
-    is the probability of incorrectly classifying a normal observation as an outlier.
-  </p>
-
-  <p>
-    Formally, if \( D \) denotes the decision rule:
-  </p>
-
-  <p>
-    \( \mathbb{P}_{X \sim P}\big(D(X) = \text{outlier}\big). \)
-  </p>
-
-  <p>
-    Controlling this probability is crucial, as overly aggressive detection rules
-    may incorrectly flag genuine observations. Typically, the threshold parameter
-    in depth-based methods is chosen to balance false alarms and missed detections.
-  </p>
-
-  <p>
-    Let the input be a collection of observations
-    \( \mathcal{X} = \{x_1, x_2, \dots, x_n\} \subset \mathbb{R}^d \),
-    a kernel \( k \), and a parameter \( t \).
-  </p>
-
-  <div class="highlight">
-    Computational cost: \( O(n^2) \) due to pairwise kernel evaluations.
-  </div>
-</div>
-
-
-<div class="card">
-  <h2>Algorithm 1: Learning an Outlier Detector</h2>
-
-  <pre style="overflow-x:auto; white-space: pre-wrap;">
-for every pair (x_i, x_j) in X:
-    K_ij = k(x_i, x_j)
-
-Given input x:
-
-for each observation x_i in X:
-    ζ_i = k(x, x_i)
-    δ_i = sqrt(k(x,x) + K_ii - 2ζ_i)
-
-    if δ_i = 0:
-        z_i = 0
-    else:
-        z_i = ζ_i / δ_i
-
-for every pair (x_i, x_j):
-    K̃_ij = k(x,x) + K_ij - ζ_i - ζ_j
-
-Compute:
-    D_k(x, X) = 1 - (1 / sqrt(z^T K̃ z))
-
-Output:
-    x is an outlier if D_k(x, X) ≤ t
-  </pre>
 
 </div>
-  
-
-  <!-- STAT TEST -->
-  <div class="card" id="testing">
-  <h2>Statistical Testing</h2>
-
-  <h3>Wilcoxon Rank-Sum Test (One-Sided)</h3>
-
-  <p>
-    The rank-sum test, introduced by Frank Wilcoxon and further developed by
-    Mann and Whitney, is a nonparametric method for comparing two independent samples.
-  </p>
-
-  <p>
-    Let
-    \( X_1, X_2, \dots, X_m \sim F_X \)
-    and
-    \( Y_1, Y_2, \dots, Y_n \sim F_Y \).
-  </p>
-
-  <p>
-    Combine all observations and compute the sum of the ranks of the \( X \)-sample,
-    denoted by \( T_X \).
-  </p>
-
-  <p>
-    Hypotheses:
-  </p>
-
-  <p>
-    \( H_0: F_X = F_Y \)
-    \quad vs \quad
-    \( H_1: \mathbb{P}(X > Y) > \frac{1}{2} \)
-  </p>
-
-  <p>
-    (i.e., \( F_X \) is stochastically greater than \( F_Y \)).
-  </p>
-
-  <p>
-    Under \( H_0 \):
-  </p>
-
-  <p>
-    \( \mathbb{E}[T_X] = \frac{m(m+n+1)}{2} \)
-  </p>
-
-  <p>
-    \( \mathrm{Var}(T_X) = \frac{mn(m+n+1)}{12} \)
-  </p>
-
-  <p>
-    For small samples, the exact distribution of \( T_X \) is used.
-    The null hypothesis is rejected for sufficiently large values of \( T_X \).
-  </p>
-
-  <div class="highlight">
-    In this project, the test is used to compare HbA1c levels between
-    KSD-only and Mahalanobis-only detected outliers.
-  </div>
-
-</div>
-
 </section>
 
 <footer>
