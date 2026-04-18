@@ -42,16 +42,27 @@ nav {
   z-index: 20;
 }
 
-nav a {
-  margin-right: 1.5rem;
+nav .links a {
+  display: inline-block;
+  margin-right: 1rem;
+  padding: 0.45rem 0.9rem;
+
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
   color: var(--text-main);
   text-decoration: none;
   font-weight: 500;
-  transition: 0.2s;
+
+  transition: all 0.25s ease;
 }
 
-nav a:hover {
+nav .links a:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
   color: var(--accent);
+  transform: translateY(-1px);
 }
 
 /* HERO */
