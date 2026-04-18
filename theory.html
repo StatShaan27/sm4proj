@@ -45,7 +45,7 @@
       <li><a href="#depth">Foundations of Data Depth and Multivariate Structure</a></li>
       <li><a href="#distance-depth">Distance-Based Depth Functions</a></li>
       <li><a href="#central-regions">Depth-Trimmed Regions and Outlyingness</a></li>
-      <li><a href="#distance">Distance-Based Depth</a></li>
+      <li><a href="#spatial-limitations">Limitations of Spatial Depth and Motivation for Kernelization</a></li>
       <li><a href="#kernel">Kernel-Based Depth</a></li>
       <li><a href="#ksd">Kernelized Spatial Depth</a></li>
       <li><a href="#algorithm">Algorithm</a></li>
@@ -304,6 +304,114 @@
 </div>
 
 
+
+
+  
+<div class="card" id="spatial-limitations">
+
+  <h2>Limitations of Spatial Depth and Motivation for Kernelization</h2>
+
+  <p>
+    A contour plot of the spatial depth \( D(x \mid X) \) illustrates that depth is highest at the center (spatial median) and decreases outward. Thus, low depth corresponds to peripheral or isolated points, motivating the outlier rule:
+  </p>
+
+  <p>
+    \( \text{Classify } z \text{ as an outlier if } D(z \mid X) < t \)
+  </p>
+
+  <p>
+    for a suitable threshold \( t \in (0,1) \).
+  </p>
+
+  <p><strong>Two methodological issues arise:</strong></p>
+
+  <ul>
+    <li>Selection of the threshold.</li>
+    <li>Whether spatial depth reflects the geometric structure of the data cloud.</li>
+  </ul>
+
+  <h3>Behavior under spherical symmetry</h3>
+
+  <p>
+    For spherically symmetric distributions, depth contours align with the data geometry (approximately concentric and circular), so depth is inversely related to distance from the center. Hence, low depth reliably indicates outlyingness.
+  </p>
+
+  <h3>Failure under non-elliptical structure</h3>
+
+  <p>
+    However, for non-elliptical or complex shapes, this relationship breaks down. The failure arises from the definition:
+  </p>
+
+  <p>
+    \( D(x \mid X) = 1 - \left\| \mathbb{E} \left[ \frac{x - X}{\|x - X\|} \right] \right\| \)
+  </p>
+
+  <ul>
+    <li>Points located centrally in terms of geometry may have low depth.</li>
+    <li>Points in low-density regions may still have high depth due to directional cancellation.</li>
+  </ul>
+
+  <p>
+    Thus, spatial depth does not necessarily align with Euclidean distance or probability density.
+  </p>
+
+  <h3>Geometric inconsistency</h3>
+
+  <ul>
+    <li>Depth contours do not follow the intrinsic shape of the data.</li>
+    <li>Central regions may exclude high-density areas.</li>
+    <li>The induced ordering may not reflect true centrality.</li>
+  </ul>
+
+  <h3>Comparison with Mahalanobis depth</h3>
+
+  <p>
+    \( D^{\mathrm{Mah}}(z \mid X) = \left(1 + (z - \mu)' \Sigma^{-1} (z - \mu) \right)^{-1} \)
+  </p>
+
+  <ul>
+    <li>Produces elliptical contours regardless of data shape.</li>
+    <li>Fails for non-elliptical distributions.</li>
+    <li>Larger values indicate centrality, unlike spatial depth where smaller values indicate outlyingness.</li>
+  </ul>
+
+  <h3>Fundamental trade-off</h3>
+
+  <p>
+    Spatial depth depends on the sum of unit direction vectors:
+  </p>
+
+  <ul>
+    <li>Emphasizes direction over magnitude</li>
+    <li>Provides robustness to extreme observations</li>
+    <li>Reduces sensitivity to distance-based separation</li>
+  </ul>
+
+  <p>
+    Thus,
+  </p>
+
+  <p>
+    Robustness to extremes \( \Longleftrightarrow \) Loss of geometric sensitivity
+  </p>
+
+  <h3>Motivation for kernelization</h3>
+
+  <p>
+    To address these limitations, spatial depth can be modified by incorporating a similarity measure via a positive definite kernel. Let \( \phi \) be the associated feature map.
+  </p>
+
+  <p>
+    \( D(x \mid X) = 1 - \left\| \mathbb{E} \left[ \frac{\phi(x) - \phi(X)}{\|\phi(x) - \phi(X)\|} \right] \right\| \)
+  </p>
+
+  <ul>
+    <li>Captures nonlinear structure</li>
+    <li>Incorporates similarity instead of raw distance</li>
+    <li>Retains robustness through normalization</li>
+  </ul>
+
+</div>
 
 
 
