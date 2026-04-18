@@ -40,6 +40,10 @@ nav {
   border-bottom: 1px solid var(--border);
   padding: 1rem 2rem;
   z-index: 20;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 nav .links a {
