@@ -47,8 +47,8 @@
       <li><a href="#central-regions">Depth-Trimmed Regions and Outlyingness</a></li>
       <li><a href="#spatial-limitations">Limitations of Spatial Depth and Motivation for Kernelization</a></li>
       <li><a href="#ksd">Kernelized Spatial Depth</a></li>
-      <li><a href="#k-sd">Kernelize d Spatial Depth</a></li>
-      <li><a href="#algorithm">Algorithm</a></li>
+      <li><a href="#ksd-algorithm">KSD-Based Outlier Detection Algorithm</a></li>
+      <li><a href="#ksd-vs-density">KSD vs Density-Based Outlier Detection</a></li>
       <li><a href="#testing">Statistical Testing</a></li>
     </ul>
   </div>
@@ -607,7 +607,79 @@
 
 
 
-  
+
+
+
+
+
+
+
+
+
+
+  <div class="card" id="ksd-vs-density">
+
+  <h2>KSD vs Density-Based Outlier Detection</h2>
+
+  <p>
+    The comparison distinguishes <strong>kernelized spatial depth (KSD)</strong> from <strong>density-based outlier detection</strong> along three dimensions: definition, estimation, and underlying assumptions.
+  </p>
+
+  <h3>1. Nature of the function</h3>
+
+  <ul>
+    <li>KSD is not a density; it measures <strong>outlyingness relative to the data cloud</strong>.</li>
+    <li>A density function represents likelihood and takes values in \( ([0,\infty)) \), whereas KSD is bounded in \( ([0,1]) \).</li>
+  </ul>
+
+  <h3>2. Difference from kernel density estimation (KDE)</h3>
+
+  <ul>
+    <li>A sample KSD is not equivalent to a kernel density estimator.</li>
+    <li>In KDE, the bandwidth parameter (e.g. \( (\sigma) \) in Gaussian kernels) must <strong>tend to zero</strong> as sample size increases to ensure consistency.</li>
+    <li>In KSD, the scale parameters (diagonal entries of \( (\Sigma) \)) <strong>converge to the true dispersion</strong> of the data along each dimension and remain strictly positive.</li>
+    <li>KSD can be constructed using <strong>nonstationary kernels</strong> (e.g. polynomial kernels), unlike KDE which relies on density kernels.</li>
+  </ul>
+
+  <h3>3. Underlying assumptions about outliers</h3>
+
+  <ul>
+    <li>Density-based methods assume <strong>outliers lie in low-density regions</strong>.</li>
+    <li>Depth-based methods define outliers as points <strong>far from the central mass</strong>, as measured by depth.</li>
+    <li>These notions can diverge: a point may lie in a relatively dense region yet be far from the majority of observations.</li>
+  </ul>
+
+  <h3>Illustrative example</h3>
+
+  <p>
+    Data are generated from a mixture
+  </p>
+
+  <p>
+    \[
+    F = 0.11\,U_{[0,0.2]} + 0.9\,U_{[2,12]},
+    \]
+  </p>
+
+  <p>
+    so most observations lie in \( ([2,12]) \), while a small fraction lies in \( ([0,0.2]) \).
+  </p>
+
+  <ul>
+    <li>
+      A <strong>density-based method</strong> (Gaussian KDE with \( (\sigma=0.06) \)) would first classify observations in \( ([2,12]) \) as outliers before detecting those in \( ([0,0.2]) \), since the latter form a concentrated high-density region.
+    </li>
+
+    <li>
+      A <strong>KSD-based method</strong> (e.g. \( (\Sigma=\Sigma_3) \)) with threshold \( (0.2632) \) identifies all observations in \( ([0,0.2]) \) as outliers, along with some points at the extreme end of \( ([2,12]) \), reflecting distance from the main mass.
+    </li>
+  </ul>
+
+  <p>
+    Thus, KSD captures <strong>global structure and centrality</strong>, whereas density-based approaches prioritize <strong>local concentration</strong>.
+  </p>
+
+</div>
 </section>
 
 <footer>
