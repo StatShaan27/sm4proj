@@ -54,22 +54,222 @@
 
   <!-- OUTLIER -->
   <div class="card" id="outlier">
-    <h2>Outlier Detection Problem</h2>
+  <h2>Outlier Detection Problem</h2>
 
-    <p><!-- To be filled --></p>
+  <p>
+    The problem of outlier detection can be stated as follows: given observations
+    \( X_1, \dots, X_n \in \mathbb{R}^d \) drawn from an unknown distribution \( P \),
+    possibly contaminated by a small fraction of observations from another distribution \( Q \),
+    identify the subset of indices corresponding to observations that do not conform to \( P \).
+  </p>
 
-    <p><!-- Mathematical formulation --></p>
-  </div>
+  <p>
+    Formally, under a contamination model:
+  </p>
+
+  <p>
+    \( X_i \sim (1 - \varepsilon)P + \varepsilon Q, \quad 0 < \varepsilon \ll 1 \)
+  </p>
+
+  <p>
+    the task is to decide, based only on the sample, which \( X_i \)'s are generated from \( Q \).
+    The difficulty lies in the absence of a canonical definition of extremeness,
+    especially in higher dimensions where geometric intuition and distance-based
+    separation become less reliable.
+  </p>
+
+  <p>
+    The intuitive need for a depth function arises precisely from this lack of ordering in
+    \( \mathbb{R}^d \). In one dimension, outliers can be identified using the natural ordering
+    of the real line, but in higher dimensions no such total order exists.
+  </p>
+
+  <p>
+    A depth function provides a center-outward ranking of points, assigning higher values to
+    central observations and lower values to peripheral ones. This allows us to define outliers
+    as points with sufficiently small depth, thereby giving a principled, geometry-aware notion
+    of extremeness that generalizes univariate ideas like medians, quantiles, and tail behavior.
+  </p>
+
+</div>
 
   <!-- DATA DEPTH -->
   <div class="card" id="depth">
-    <h2>Data Depth</h2>
+  <h2>Data Depth</h2>
 
-    <p><!-- Definition --></p>
+  <p>
+    A depth function assigns a notion of centrality to points with respect to a
+    probability distribution \( P \). Formally, a depth function is a map
+  </p>
 
-    <p><!-- Interpretation --></p>
-  </div>
+  <p>
+    \( D : \mathbb{R}^d \times \mathcal{P}(\mathbb{R}^d) \to [0,1] \),
+  </p>
 
+  <p>
+    where larger values indicate greater centrality and smaller values indicate outlyingness.
+  </p>
+</div>
+
+
+<div class="card" id="axioms">
+  <h2>Axioms of Depth Functions</h2>
+
+  <p>A well-defined depth function typically satisfies the following axioms:</p>
+
+  <ol>
+    <li>
+      <strong>Affine invariance:</strong> For any nonsingular affine transformation
+      \( T(x) = Ax + b \),
+      \[
+      D(x;P) = D(Tx; P_T),
+      \]
+      where \( P_T \) is the pushforward of \( P \).
+    </li>
+
+    <li>
+      <strong>Maximality at center:</strong> If \( P \) has a center of symmetry \( \theta \), then
+      \[
+      D(\theta;P) = \sup_x D(x;P).
+      \]
+    </li>
+
+    <li>
+      <strong>Monotonicity relative to deepest point:</strong> Along any ray from a deepest point
+      \( \theta \), depth decreases monotonically.
+    </li>
+
+    <li>
+      <strong>Vanishing at infinity:</strong>
+      \[
+      D(x;P) \to 0 \quad \text{as } \|x\| \to \infty.
+      \]
+    </li>
+  </ol>
+</div>
+
+
+<div class="card" id="distance">
+  <h2>Distance-Based Depth</h2>
+
+  <p>
+    Distance-based depth functions quantify the centrality of a point
+    \( x \in \mathbb{R}^d \) by measuring its distance from a representative
+    location of the distribution.
+  </p>
+
+  <p>
+    A general form is:
+  </p>
+
+  <p>
+    \( D(x;P) = g\big(d(x, \theta(P))\big), \)
+  </p>
+
+  <p>
+    where \( d(\cdot,\cdot) \) is a metric, \( \theta(P) \) is a location functional,
+    and \( g \) is a decreasing function.
+  </p>
+
+  <p>
+    Examples include Mahalanobis depth, \( L_2 \) depth, and Oja depth.
+  </p>
+
+  <p>
+    The Mahalanobis depth is defined as:
+  </p>
+
+  <p>
+    \( D(x;P) = \left[ 1 + (x - \mu)^\top \Sigma^{-1} (x - \mu) \right]^{-1}. \)
+  </p>
+
+  <p>
+    While affine invariant, Mahalanobis depth is sensitive to outliers unless
+    robust estimators of \( \mu \) and \( \Sigma \) are used.
+  </p>
+</div>
+
+
+<div class="card" id="kernel">
+  <h2>Kernel-Based Depth</h2>
+
+  <p>
+    Kernel-based depth functions can be defined at the population level by replacing
+    empirical averages with expectations.
+  </p>
+
+  <p>
+    For a kernel \( K : \mathbb{R}^d \times \mathbb{R}^d \to \mathbb{R} \),
+  </p>
+
+  <p>
+    \( D(x;P) = \mathbb{E}_{X \sim P}[K(x,X)] = \int_{\mathbb{R}^d} K(x,y)\, dP(y). \)
+  </p>
+
+  <p>
+    A kernel \( K \) is positive definite if for any \( n \in \mathbb{N} \),
+    points \( x_1,\dots,x_n \), and coefficients \( c_1,\dots,c_n \),
+  </p>
+
+  <p>
+    \( \sum_{i=1}^n \sum_{j=1}^n c_i c_j K(x_i,x_j) \ge 0. \)
+  </p>
+
+  <p>
+    This formulation measures centrality via similarity to the distribution.
+  </p>
+</div>
+
+
+<div class="card" id="ksd">
+  <h2>Kernelized Spatial Depth (KSD)</h2>
+
+  <p>
+    Kernelized spatial depth extends classical spatial depth by incorporating
+    a positive definite kernel.
+  </p>
+
+  <p>
+    Let \( \phi : \mathbb{R}^d \to \mathcal{F} \) be a feature map such that
+    \( K(x,y) = \langle \phi(x), \phi(y) \rangle \).
+  </p>
+
+  <p>
+    The population definition is:
+  </p>
+
+  <p>
+    \( D(x;P) = 1 - \mathbb{E}_{X \sim P}
+    \left\| \frac{\phi(x) - \phi(X)}{\|\phi(x) - \phi(X)\|} \right\|. \)
+  </p>
+
+  <p>
+    The sample version is:
+  </p>
+
+  <p>
+    \( D(x;P_n) = 1 - \frac{1}{n+1} \sum_{i=1}^n
+    \frac{\phi(x) - \phi(X_i)}{\|\phi(x) - \phi(X_i)\|}. \)
+  </p>
+
+  <p>
+    Using the identity
+    \( \|\phi(x)-\phi(X_i)\|^2 = K(x,x) + K(X_i,X_i) - 2K(x,X_i) \),
+    the expression can be computed entirely in terms of kernel values.
+  </p>
+
+  <p>
+    A common choice is the Gaussian kernel:
+  </p>
+
+  <p>
+    \( K(x,y) = \exp\left(-\frac{\|x-y\|^2}{2\sigma^2}\right), \)
+  </p>
+
+  <p>
+    where \( \sigma > 0 \) is the bandwidth parameter.
+  </p>
+</div>
   <!-- AXIOMS -->
   <div class="card" id="axioms">
     <h2>Axioms of Depth Functions</h2>
