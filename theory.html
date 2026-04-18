@@ -46,8 +46,8 @@
       <li><a href="#distance-depth">Distance-Based Depth Functions</a></li>
       <li><a href="#central-regions">Depth-Trimmed Regions and Outlyingness</a></li>
       <li><a href="#spatial-limitations">Limitations of Spatial Depth and Motivation for Kernelization</a></li>
-      <li><a href="#kernel">Kernel-Based Depth</a></li>
       <li><a href="#ksd">Kernelized Spatial Depth</a></li>
+      <li><a href="#k-sd">Kernelize d Spatial Depth</a></li>
       <li><a href="#algorithm">Algorithm</a></li>
       <li><a href="#testing">Statistical Testing</a></li>
     </ul>
@@ -418,7 +418,92 @@
 
 
 
+<div class="card" id="ksd">
 
+  <h2>Kernelized Spatial Depth</h2>
+
+  <p>
+    A <strong>positive definite kernel</strong> \( (\kappa:\mathbb{R}^n\times \mathbb{R}^n\to \mathbb{R}) \) induces an implicit feature mapping \( (\phi:\mathbb{R}^n\to \mathbb{F}) \) into an inner product space \( (\mathbb{F}) \) such that
+  </p>
+
+  <p>
+    \[
+    \kappa(x,y)=\langle \phi(x),\phi(y)\rangle.
+    \]
+  </p>
+
+  <p>
+    For stationary kernels (e.g. Gaussian \( (\kappa(x,y)=\exp(-|x-y|^2/\sigma^2)) \)), \( (\kappa(x,y)) \) acts as a similarity measure.
+  </p>
+
+  <p>
+    The <strong>kernelized spatial depth (KSD)</strong> evaluates spatial depth in the feature space \( (\mathbb{F}) \). Using the identity
+  </p>
+
+  <p>
+    \[
+    |x-y|^2 = x^Tx + y^Ty - 2x^Ty,
+    \]
+  </p>
+
+  <p>
+    the spatial depth expression can be rewritten in terms of inner products and then replaced by kernel evaluations. This yields the sample KSD:
+  </p>
+
+  <p>
+    \[
+    D_\kappa(x\mid X)
+    =
+    1-\frac{1}{|\mathcal{X}(x)|-1}
+    \left(
+    \sum_{y,z\in \mathcal{X}(x)}
+    \frac{\kappa(x,x)+\kappa(y,z)-\kappa(x,y)-\kappa(x,z)}
+    {\delta_\kappa(x,y)\,\delta_\kappa(x,z)}
+    \right)^{1/2},
+    \]
+  </p>
+
+  <p>
+    where
+  </p>
+
+  <p>
+    \[
+    \delta_\kappa(x,y)=\sqrt{\kappa(x,x)+\kappa(y,y)-2\kappa(x,y)},
+    \]
+  </p>
+
+  <p>
+    and terms with \( (x=y) \) or \( (x=z) \) are set to zero (analogous to the spatial sign at zero).
+  </p>
+
+  <p>
+    KSD is a spatial depth in the feature space \( (\mathbb{F}) \), but <strong>not necessarily a depth in \( (\mathbb{R}^n) \)</strong> since the feature-space center may not correspond to any point in the original space. A new “center” in \( (\mathbb{R}^n) \) is defined as the point maximizing KSD; however, monotonicity away from this center is not guaranteed.
+  </p>
+
+  <p>
+    The formulation is valid for any positive definite kernel, with emphasis on stationary kernels. Empirically, KSD contours <strong>adapt to the intrinsic geometry of the data</strong>, unlike standard spatial depth:
+  </p>
+
+  <ul>
+    <li>For non-elliptical distributions (e.g. half-moon, ring-shaped), KSD contours follow the data shape.</li>
+    <li>Depth values at isolated points are small, enabling effective outlier detection.</li>
+  </ul>
+
+  <p>
+    Example values: depths at candidate outliers are approximately \( (0.2495) \) (half-moon) and \( (0.2651) \) (ring). A threshold around \( (0.25)–(0.27) \) separates outliers from the main data cloud. Determination of the threshold is addressed separately.
+  </p>
+
+</div>
+
+
+
+
+
+
+
+
+  
   
 </section>
 
