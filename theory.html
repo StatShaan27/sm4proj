@@ -270,78 +270,133 @@
     where \( \sigma > 0 \) is the bandwidth parameter.
   </p>
 </div>
-  <!-- AXIOMS -->
-  <div class="card" id="axioms">
-    <h2>Axioms of Depth Functions</h2>
-
-    <ul>
-      <li><!-- Affine invariance --></li>
-      <li><!-- Maximality at center --></li>
-      <li><!-- Monotonicity --></li>
-      <li><!-- Vanishing at infinity --></li>
-    </ul>
-  </div>
-
-  <!-- DISTANCE DEPTH -->
-  <div class="card" id="distance">
-    <h2>Distance-Based Depth</h2>
-
-    <p><!-- General form --></p>
-
-    <p><!-- Mahalanobis depth --></p>
-
-    <p><!-- Limitations --></p>
-  </div>
-
-  <!-- KERNEL DEPTH -->
-  <div class="card" id="kernel">
-    <h2>Kernel-Based Depth</h2>
-
-    <p><!-- Kernel definition --></p>
-
-    <p><!-- Positive definite kernels --></p>
-
-    <p><!-- Interpretation --></p>
-  </div>
-
-  <!-- KSD -->
-  <div class="card" id="ksd">
-    <h2>Kernelized Spatial Depth (KSD)</h2>
-
-    <p><!-- Definition --></p>
-
-    <p><!-- Feature mapping --></p>
-
-    <p><!-- Sample version --></p>
-
-    <p><!-- Gaussian kernel --></p>
-  </div>
 
   <!-- ALGORITHM -->
   <div class="card" id="algorithm">
-    <h2>Algorithmic Framework</h2>
+  <h2>Algorithmic Aspects</h2>
 
-    <p><!-- Description --></p>
+  <p>
+    In outlier detection, the false alarm probability (false positive rate)
+    is the probability of incorrectly classifying a normal observation as an outlier.
+  </p>
 
-    <ul>
-      <li><!-- Kernel computation --></li>
-      <li><!-- Depth calculation --></li>
-      <li><!-- Thresholding --></li>
-    </ul>
+  <p>
+    Formally, if \( D \) denotes the decision rule:
+  </p>
 
-    <p><!-- Complexity --></p>
+  <p>
+    \( \mathbb{P}_{X \sim P}\big(D(X) = \text{outlier}\big). \)
+  </p>
+
+  <p>
+    Controlling this probability is crucial, as overly aggressive detection rules
+    may incorrectly flag genuine observations. Typically, the threshold parameter
+    in depth-based methods is chosen to balance false alarms and missed detections.
+  </p>
+
+  <p>
+    Let the input be a collection of observations
+    \( \mathcal{X} = \{x_1, x_2, \dots, x_n\} \subset \mathbb{R}^d \),
+    a kernel \( k \), and a parameter \( t \).
+  </p>
+
+  <div class="highlight">
+    Computational cost: \( O(n^2) \) due to pairwise kernel evaluations.
   </div>
+</div>
+
+
+<div class="card">
+  <h2>Algorithm 1: Learning an Outlier Detector</h2>
+
+  <pre style="overflow-x:auto; white-space: pre-wrap;">
+for every pair (x_i, x_j) in X:
+    K_ij = k(x_i, x_j)
+
+Given input x:
+
+for each observation x_i in X:
+    ζ_i = k(x, x_i)
+    δ_i = sqrt(k(x,x) + K_ii - 2ζ_i)
+
+    if δ_i = 0:
+        z_i = 0
+    else:
+        z_i = ζ_i / δ_i
+
+for every pair (x_i, x_j):
+    K̃_ij = k(x,x) + K_ij - ζ_i - ζ_j
+
+Compute:
+    D_k(x, X) = 1 - (1 / sqrt(z^T K̃ z))
+
+Output:
+    x is an outlier if D_k(x, X) ≤ t
+  </pre>
+
+</div>
+  
 
   <!-- STAT TEST -->
   <div class="card" id="testing">
-    <h2>Statistical Testing</h2>
+  <h2>Statistical Testing</h2>
 
-    <p><!-- Wilcoxon test --></p>
+  <h3>Wilcoxon Rank-Sum Test (One-Sided)</h3>
 
-    <p><!-- Hypothesis --></p>
+  <p>
+    The rank-sum test, introduced by Frank Wilcoxon and further developed by
+    Mann and Whitney, is a nonparametric method for comparing two independent samples.
+  </p>
 
-    <p><!-- Interpretation --></p>
+  <p>
+    Let
+    \( X_1, X_2, \dots, X_m \sim F_X \)
+    and
+    \( Y_1, Y_2, \dots, Y_n \sim F_Y \).
+  </p>
+
+  <p>
+    Combine all observations and compute the sum of the ranks of the \( X \)-sample,
+    denoted by \( T_X \).
+  </p>
+
+  <p>
+    Hypotheses:
+  </p>
+
+  <p>
+    \( H_0: F_X = F_Y \)
+    \quad vs \quad
+    \( H_1: \mathbb{P}(X > Y) > \frac{1}{2} \)
+  </p>
+
+  <p>
+    (i.e., \( F_X \) is stochastically greater than \( F_Y \)).
+  </p>
+
+  <p>
+    Under \( H_0 \):
+  </p>
+
+  <p>
+    \( \mathbb{E}[T_X] = \frac{m(m+n+1)}{2} \)
+  </p>
+
+  <p>
+    \( \mathrm{Var}(T_X) = \frac{mn(m+n+1)}{12} \)
+  </p>
+
+  <p>
+    For small samples, the exact distribution of \( T_X \) is used.
+    The null hypothesis is rejected for sufficiently large values of \( T_X \).
+  </p>
+
+  <div class="highlight">
+    In this project, the test is used to compare HbA1c levels between
+    KSD-only and Mahalanobis-only detected outliers.
   </div>
+
+</div>
 
 </section>
 
