@@ -924,151 +924,104 @@
 
 <div class="card" id="wilcoxon">
 
-  <h2>Wilcoxon Signed Rank Test</h2>
+  <h2>Wilcoxon Rank-Sum Test (Two-Sample)</h2>
 
-  <h3>Paired Replicates Model and Assumptions</h3>
+  <h3>Two-Sample Location Model and Assumptions</h3>
 
   <p>
-    Data consist of paired observations \( (X_i,Y_i) \), \( (i=1,\dots,n) \). Define differences
+    Data consist of two independent samples:
   </p>
 
   <p>
     \[
-    Z_i = Y_i - X_i,
+    X_1,\dots,X_m \quad \text{and} \quad Y_1,\dots,Y_n,\quad N=m+n.
     \]
   </p>
 
   <p>
-    and model
+    Model:
   </p>
 
   <p>
     \[
-    Z_i = \theta + e_i,
+    X_i=e_i,\quad Y_j=e_{m+j}+\Delta,
     \]
   </p>
 
   <p>
-    where \( (\theta) \) is the treatment effect and \( (e_i) \) are unobservable random variables.
+    where \( (\Delta) \) is the location shift (treatment effect).
   </p>
 
   <p><strong>Assumptions:</strong></p>
 
   <ul>
-    <li>A1: \( (Z_i=\theta+e_i) \).</li>
-    <li>A2: \( (e_i) \) are mutually independent.</li>
-    <li>A3: Each \( (e_i) \) has a continuous distribution symmetric about 0 (not necessarily identical).</li>
+    <li>A1: Model holds with shift \( (\Delta) \).</li>
+    <li>A2: \( (e_1,\dots,e_{m+n}) \) are mutually independent.</li>
+    <li>A3: All \( (e) \)'s arise from the same continuous population.</li>
   </ul>
 
-  <h3>Procedure</h3>
-
   <p>
-    Test
+    Thus the only difference between populations is a <strong>location shift</strong>.
   </p>
+
+  <h3>Hypothesis</h3>
 
   <p>
     \[
-    H_0:\theta=0.
+    H_0:\Delta=0.
     \]
   </p>
 
+  <h3>Statistic</h3>
+
   <ol>
     <li>
-      Compute \( (|Z_i|) \), rank them: \( (R_i = \text{rank of } |Z_i|) \).
+      Combine all \( (N) \) observations and rank them. Let \( (R_j) \) denote the rank of \( (Y_j) \).
     </li>
 
     <li>
       Define
       \[
-      \psi_i =
-      \begin{cases}
-      1 & Z_i>0 \\
-      0 & Z_i<0
-      \end{cases}
-      \]
-    </li>
-
-    <li>
-      Define statistic
-      \[
-      T^+ = \sum_{i=1}^n R_i \psi_i.
+      W=\sum_{j=1}^n R_j.
       \]
     </li>
   </ol>
 
   <p>
-    Interpretation: \( (T^+) \) is the sum of ranks corresponding to positive differences.
-  </p>
-
-  <p>
-    Define also
-  </p>
-
-  <p>
-    \[
-    T^- = \sum_{i=1}^n R_i(1-\psi_i), \quad T^+ + T^- = \frac{n(n+1)}{2}.
-    \]
-  </p>
-
-  <h3>Null Distribution and Symmetry</h3>
-
-  <p>
-    Under \( (H_0) \), signs of \( (Z_i) \) are independent and equiprobable.
-  </p>
-
-  <p>
-    Thus each subset of positive ranks occurs with probability \( (2^{-n}) \), implying:
-  </p>
-
-  <p>
-    \[
-    T^+ \overset{d}{=} \sum_{i\in S} R_i, \quad S \subset \{1,\dots,n\}.
-    \]
-  </p>
-
-  <p>
-    Hence distribution is <strong>distribution-free</strong> and depends only on ranks.
-  </p>
-
-  <p><strong>Symmetry Property</strong></p>
-
-  <p>
-    \[
-    P_0(T^+ \ge x) = P_0\left(T^+ \le \frac{n(n+1)}{2} - x \right).
-    \]
+    Interpretation: \( (W) \) is the sum of ranks assigned to the second sample.
   </p>
 
   <h3>Exact Tests</h3>
 
   <p>
-    Let \( (t(\alpha,n)) \) satisfy:
+    Let \( (w(\alpha,m,n)) \) satisfy:
   </p>
 
   <p>
     \[
-    P_0(T^+ \ge t(\alpha,n)) = \alpha.
+    P_0(W \ge w(\alpha,m,n))=\alpha.
     \]
   </p>
 
-  <p><strong>One-sided tests</strong></p>
+  <h4>One-sided tests</h4>
 
   <ul>
     <li>
-      \( (H_1:\theta>0) \)
+      \( (H_1:\Delta>0) \)
       \[
-      \text{Reject if } T^+ \ge t(\alpha,n).
+      \text{Reject } H_0 \text{ if } W \ge w(\alpha,m,n).
       \]
     </li>
 
     <li>
-      \( (H_1:\theta<0) \)
+      \( (H_1:\Delta<0) \)
       \[
-      \text{Reject if } T^+ \le \frac{n(n+1)}{2} - t(\alpha,n).
+      \text{Reject } H_0 \text{ if } W \le mn+n(n+1)/2 - w(\alpha,m,n).
       \]
     </li>
   </ul>
 
-  <p><strong>Two-sided test</strong></p>
+  <h4>Two-sided test</h4>
 
   <p>
     Reject if
@@ -1076,7 +1029,7 @@
 
   <p>
     \[
-    T^+ \ge t(\alpha_2,n) \quad \text{or} \quad T^+ \le \frac{n(n+1)}{2} - t(\alpha_1,n),
+    W \ge w(\alpha_2,m,n) \quad \text{or} \quad W \le mn+n(n+1)/2 - w(\alpha_1,m,n),
     \]
   </p>
 
@@ -1092,76 +1045,65 @@
 
   <p>
     \[
-    \mathbb{E}(T^+) = \frac{n(n+1)}{4}, \quad \mathrm{Var}(T^+) = \frac{n(n+1)(2n+1)}{24}.
+    E_0(W)=\frac{n(m+n+1)}{2}, \quad
+    \mathrm{Var}_0(W)=\frac{mn(m+n+1)}{12}.
     \]
   </p>
 
   <p>
-    Define standardized statistic:
+    Standardized statistic:
   </p>
 
   <p>
     \[
-    T^* = \frac{T^+ - \frac{n(n+1)}{4}}{\sqrt{\frac{n(n+1)(2n+1)}{24}}}.
+    W^*=\frac{W - \frac{n(m+n+1)}{2}}{\sqrt{\frac{mn(m+n+1)}{12}}}
+    \;\xrightarrow{d}\; N(0,1).
     \]
   </p>
 
   <p>
-    Then
+    Reject \( (H_0) \) if \( (W^* \ge z_\alpha) \).
+  </p>
+
+  <h3>Ties Adjustment</h3>
+
+  <p>
+    If ties occur, use average ranks.
+  </p>
+
+  <p>
+    Variance becomes:
   </p>
 
   <p>
     \[
-    T^* \xrightarrow{d} N(0,1).
+    \mathrm{Var}_0(W)
+    =
+    \frac{mn}{12}
+    \left[
+    (m+n+1)
+    -
+    \frac{\sum_{j=1}^g t_j(t_j^2-1)}{(m+n)(m+n-1)}
+    \right],
     \]
   </p>
 
   <p>
-    Reject \( (H_0) \) if \( (T^* \ge z_\alpha) \).
+    where \( (t_j) \) are tie-group sizes.
   </p>
 
-  <h3>Handling Ties</h3>
+  <h3>Interpretation of \( (\Delta) \)</h3>
 
   <ul>
-    <li>If some \( (Z_i=0) \): remove them and reduce \( (n) \).</li>
-    <li>If ties in \( (|Z_i|) \): use average ranks.</li>
+    <li>\( (\Delta = \mu_2 - \mu_1) \) (means) if expectations exist</li>
+    <li>\( (\Delta = \text{median}(Y) - \text{median}(X)) \) under symmetry</li>
   </ul>
 
   <p>
-    Variance correction:
+    Thus test detects a <strong>shift in location</strong>.
   </p>
 
-  <p>
-    \[
-    \mathrm{Var}_0(T^+) = \frac{1}{24}\left[n(n+1)(2n+1) - \frac{1}{2}\sum_{j=1}^g t_j(t_j-1)(t_j+1)\right],
-    \]
-  </p>
-
-  <p>
-    where \( (t_j) \) are tie group sizes.
-  </p>
-
-  <h3>Distribution-Free Property</h3>
-
-  <p>
-    The null distribution depends only on symmetry and continuity, not on specific distributions.
-  </p>
-
-  <p>
-    Thus test controls:
-  </p>
-
-  <p>
-    \[
-    P(\text{Type I error}) = \alpha
-    \]
-  </p>
-
-  <p>
-    uniformly over all distributions satisfying A1–A3.
-  </p>
-
-  <h3>Alternative Formulation</h3>
+  <h3>Alternative Characterisation (Mann–Whitney Form)</h3>
 
   <p>
     Define
@@ -1169,81 +1111,60 @@
 
   <p>
     \[
-    B = \#\{Z_i>0\}, \quad r_1<\cdots<r_B \text{ ranks of positive } Z_i.
+    \Delta^* = P(X<Y) - \frac{1}{2}.
     \]
   </p>
-
-  <p>
-    Then
-  </p>
-
-  <p>
-    \[
-    T^+ = \sum_{i=1}^B r_i.
-    \]
-  </p>
-
-  <p>
-    Each configuration occurs with probability \( (2^{-n}) \), yielding exact enumeration.
-  </p>
-
-  <h3>Generalization of Hypothesis</h3>
-
-  <p>
-    For testing \( (H_0:\theta=\theta_0) \), use:
-  </p>
-
-  <p>
-    \[
-    Z_i' = Z_i - \theta_0.
-    \]
-  </p>
-
-  <h3>Comments and Interpretation</h3>
 
   <ul>
-    <li>Test uses both <strong>signs and magnitudes</strong> (via ranks), unlike sign test.</li>
-    <li>Measures shift in <strong>location parameter</strong>.</li>
-    <li>Requires symmetry but not identical distributions.</li>
-  </ul>
-
-  <h3>Consistency</h3>
-
-  <ul>
-    <li>For \( (\theta>0) \): reject with probability \( (\to 1) \).</li>
-    <li>For \( (\theta<0) \): similarly.</li>
+    <li>\( (\Delta^*>0) \): \( (Y) \) tends to be larger</li>
+    <li>\( (\Delta^*<0) \): \( (X) \) tends to be larger</li>
   </ul>
 
   <p>
-    Equivalent formulation:
+    The test is consistent against alternatives \( (\Delta^* \ne 0) \).
   </p>
 
-  <p>
-    \[
-    \theta^* = P(Z_1+Z_2>0) - \frac{1}{2}.
-    \]
-  </p>
+  <h3>Properties</h3>
 
-  <p>
-    Consistency holds when \( (\theta^* \neq 0) \).
-  </p>
+  <ol>
+    <li>
+      <strong>Distribution-free</strong>:  
+      The null distribution of \( (W) \) depends only on \( (m,n) \), not on the underlying distribution (given A1–A3).
+    </li>
 
-  <h3>Efficiency</h3>
+    <li>
+      <strong>Consistency</strong>:  
+      Test procedures are consistent for \( (\Delta>0,\ \Delta<0,\ \Delta\ne0) \).
+    </li>
 
-  <p>
-    Wilcoxon signed rank test is asymptotically more efficient than the sign test under many distributions and is close to optimal under symmetric distributions.
-  </p>
+    <li>
+      <strong>Efficiency</strong>:  
+      High asymptotic efficiency relative to parametric tests; particularly strong under non-normality.
+    </li>
+  </ol>
 
   <h3>Key Structural Insight</h3>
 
   <ul>
-    <li>Statistic is a <strong>linear rank statistic</strong>.</li>
-    <li>Invariant under monotone transformations of \( (|Z_i|) \).</li>
-    <li>Distribution-free due to symmetry and random sign structure.</li>
+    <li>\( (W) \) is a <strong>linear rank statistic</strong>.</li>
+    <li>
+      Equivalent formulations:
+      <ul>
+        <li>Sum of ranks of \( (Y) \)'s</li>
+        <li>Count of pairwise comparisons \( (X_i < Y_j) \)</li>
+      </ul>
+    </li>
+    <li>Invariant under monotone transformations of data.</li>
+    <li>Captures stochastic dominance rather than strictly mean difference.</li>
   </ul>
 
-</div>
+  <h3>Summary</h3>
 
+  <p>
+    The Wilcoxon rank-sum test provides a <strong>nonparametric, distribution-free test for location shift</strong> between two independent samples, with exact finite-sample validity, asymptotic normal approximation, robustness to outliers, and consistency under broad alternatives.
+  </p>
+
+</div>
 
 
 
