@@ -52,7 +52,7 @@
       <li><a href="#kernel-theory">Kernel Functions and RKHS Foundations</a></li>
       <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
       <li><a href="#wilcoxon-ci">Distribution-Free Confidence Interval (Tukey–Wilcoxon Method)</a></li>
-      <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
+      <li><a href="#test-comparison">Choice of Statistical Test</a></li>
       <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
       <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
       
@@ -1365,6 +1365,68 @@
     <li>Equivalent to inversion of Wilcoxon signed rank test</li>
     <li>Efficient under symmetry assumptions</li>
   </ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <div class="card" id="test-comparison">
+
+  <h2>Choice of Statistical Test</h2>
+
+  <h3>t-Test vs Wilcoxon Rank-Sum</h3>
+
+  <p>
+    The two-sample \( t \)-test is optimal under exact normality, but its performance degrades under non-normal data, especially in the presence of skewness or outliers.
+  </p>
+
+  <p>
+    The Wilcoxon Rank-Sum (WRS) test is a nonparametric alternative that relies on ranks rather than raw values, making it more robust to deviations from normality.
+  </p>
+
+  <ul>
+    <li>\( t \)-test: assumes approximate normality and is sensitive to outliers.</li>
+    <li>WRS: requires only continuity and independence; robust to skewness and extreme values.</li>
+  </ul>
+
+  <h3>Relevance to this project</h3>
+
+  <p>
+    In outlier detection settings, the presence of extreme observations violates normality assumptions and can distort mean-based inference.
+  </p>
+
+  <p>
+    Since depth-based methods explicitly identify extreme or isolated points, the resulting samples are typically non-normal and heavy-tailed.
+  </p>
+
+  <div class="highlight">
+    Therefore, the Wilcoxon Rank-Sum test is more appropriate, as it provides reliable inference without relying on distributional assumptions.
+  </div>
+
+  <h3>Interpretation</h3>
+
+  <ul>
+    <li>The \( t \)-test compares means and is affected by magnitude of extreme values.</li>
+    <li>The WRS test compares distributions via ranks, making it stable under outliers.</li>
+  </ul>
+
+  <h3>Conclusion</h3>
+
+  <p>
+    Given the structure of the data and the presence of outliers, the Wilcoxon Rank-Sum test is preferred over the \( t \)-test due to its robustness and minimal assumptions.
+  </p>
 
 </div>
 
