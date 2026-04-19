@@ -49,7 +49,8 @@
       <li><a href="#ksd">Kernelized Spatial Depth</a></li>
       <li><a href="#ksd-algorithm">KSD-Based Outlier Detection Algorithm</a></li>
       <li><a href="#ksd-vs-density">KSD vs Density-Based Outlier Detection</a></li>
-      <li><a href="#testing">Statistical Testing</a></li>
+      <li><a href="#kernel-theory">Kernel Functions and RKHS Foundations</a></li>
+      <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
     </ul>
   </div>
 
@@ -916,7 +917,327 @@
 
 
 
+<div class="card" id="wilcoxon">
 
+  <h2>Wilcoxon Signed Rank Test</h2>
+
+  <h3>Paired Replicates Model and Assumptions</h3>
+
+  <p>
+    Data consist of paired observations \( (X_i,Y_i) \), \( (i=1,\dots,n) \). Define differences
+  </p>
+
+  <p>
+    \[
+    Z_i = Y_i - X_i,
+    \]
+  </p>
+
+  <p>
+    and model
+  </p>
+
+  <p>
+    \[
+    Z_i = \theta + e_i,
+    \]
+  </p>
+
+  <p>
+    where \( (\theta) \) is the treatment effect and \( (e_i) \) are unobservable random variables.
+  </p>
+
+  <p><strong>Assumptions:</strong></p>
+
+  <ul>
+    <li>A1: \( (Z_i=\theta+e_i) \).</li>
+    <li>A2: \( (e_i) \) are mutually independent.</li>
+    <li>A3: Each \( (e_i) \) has a continuous distribution symmetric about 0 (not necessarily identical).</li>
+  </ul>
+
+  <h3>Procedure</h3>
+
+  <p>
+    Test
+  </p>
+
+  <p>
+    \[
+    H_0:\theta=0.
+    \]
+  </p>
+
+  <ol>
+    <li>
+      Compute \( (|Z_i|) \), rank them: \( (R_i = \text{rank of } |Z_i|) \).
+    </li>
+
+    <li>
+      Define
+      \[
+      \psi_i =
+      \begin{cases}
+      1 & Z_i>0 \\
+      0 & Z_i<0
+      \end{cases}
+      \]
+    </li>
+
+    <li>
+      Define statistic
+      \[
+      T^+ = \sum_{i=1}^n R_i \psi_i.
+      \]
+    </li>
+  </ol>
+
+  <p>
+    Interpretation: \( (T^+) \) is the sum of ranks corresponding to positive differences.
+  </p>
+
+  <p>
+    Define also
+  </p>
+
+  <p>
+    \[
+    T^- = \sum_{i=1}^n R_i(1-\psi_i), \quad T^+ + T^- = \frac{n(n+1)}{2}.
+    \]
+  </p>
+
+  <h3>Null Distribution and Symmetry</h3>
+
+  <p>
+    Under \( (H_0) \), signs of \( (Z_i) \) are independent and equiprobable.
+  </p>
+
+  <p>
+    Thus each subset of positive ranks occurs with probability \( (2^{-n}) \), implying:
+  </p>
+
+  <p>
+    \[
+    T^+ \overset{d}{=} \sum_{i\in S} R_i, \quad S \subset \{1,\dots,n\}.
+    \]
+  </p>
+
+  <p>
+    Hence distribution is <strong>distribution-free</strong> and depends only on ranks.
+  </p>
+
+  <p><strong>Symmetry Property</strong></p>
+
+  <p>
+    \[
+    P_0(T^+ \ge x) = P_0\left(T^+ \le \frac{n(n+1)}{2} - x \right).
+    \]
+  </p>
+
+  <h3>Exact Tests</h3>
+
+  <p>
+    Let \( (t(\alpha,n)) \) satisfy:
+  </p>
+
+  <p>
+    \[
+    P_0(T^+ \ge t(\alpha,n)) = \alpha.
+    \]
+  </p>
+
+  <p><strong>One-sided tests</strong></p>
+
+  <ul>
+    <li>
+      \( (H_1:\theta>0) \)
+      \[
+      \text{Reject if } T^+ \ge t(\alpha,n).
+      \]
+    </li>
+
+    <li>
+      \( (H_1:\theta<0) \)
+      \[
+      \text{Reject if } T^+ \le \frac{n(n+1)}{2} - t(\alpha,n).
+      \]
+    </li>
+  </ul>
+
+  <p><strong>Two-sided test</strong></p>
+
+  <p>
+    Reject if
+  </p>
+
+  <p>
+    \[
+    T^+ \ge t(\alpha_2,n) \quad \text{or} \quad T^+ \le \frac{n(n+1)}{2} - t(\alpha_1,n),
+    \]
+  </p>
+
+  <p>
+    with \( (\alpha=\alpha_1+\alpha_2) \).
+  </p>
+
+  <h3>Large Sample Approximation</h3>
+
+  <p>
+    Under \( (H_0) \),
+  </p>
+
+  <p>
+    \[
+    \mathbb{E}(T^+) = \frac{n(n+1)}{4}, \quad \mathrm{Var}(T^+) = \frac{n(n+1)(2n+1)}{24}.
+    \]
+  </p>
+
+  <p>
+    Define standardized statistic:
+  </p>
+
+  <p>
+    \[
+    T^* = \frac{T^+ - \frac{n(n+1)}{4}}{\sqrt{\frac{n(n+1)(2n+1)}{24}}}.
+    \]
+  </p>
+
+  <p>
+    Then
+  </p>
+
+  <p>
+    \[
+    T^* \xrightarrow{d} N(0,1).
+    \]
+  </p>
+
+  <p>
+    Reject \( (H_0) \) if \( (T^* \ge z_\alpha) \).
+  </p>
+
+  <h3>Handling Ties</h3>
+
+  <ul>
+    <li>If some \( (Z_i=0) \): remove them and reduce \( (n) \).</li>
+    <li>If ties in \( (|Z_i|) \): use average ranks.</li>
+  </ul>
+
+  <p>
+    Variance correction:
+  </p>
+
+  <p>
+    \[
+    \mathrm{Var}_0(T^+) = \frac{1}{24}\left[n(n+1)(2n+1) - \frac{1}{2}\sum_{j=1}^g t_j(t_j-1)(t_j+1)\right],
+    \]
+  </p>
+
+  <p>
+    where \( (t_j) \) are tie group sizes.
+  </p>
+
+  <h3>Distribution-Free Property</h3>
+
+  <p>
+    The null distribution depends only on symmetry and continuity, not on specific distributions.
+  </p>
+
+  <p>
+    Thus test controls:
+  </p>
+
+  <p>
+    \[
+    P(\text{Type I error}) = \alpha
+    \]
+  </p>
+
+  <p>
+    uniformly over all distributions satisfying A1–A3.
+  </p>
+
+  <h3>Alternative Formulation</h3>
+
+  <p>
+    Define
+  </p>
+
+  <p>
+    \[
+    B = \#\{Z_i>0\}, \quad r_1<\cdots<r_B \text{ ranks of positive } Z_i.
+    \]
+  </p>
+
+  <p>
+    Then
+  </p>
+
+  <p>
+    \[
+    T^+ = \sum_{i=1}^B r_i.
+    \]
+  </p>
+
+  <p>
+    Each configuration occurs with probability \( (2^{-n}) \), yielding exact enumeration.
+  </p>
+
+  <h3>Generalization of Hypothesis</h3>
+
+  <p>
+    For testing \( (H_0:\theta=\theta_0) \), use:
+  </p>
+
+  <p>
+    \[
+    Z_i' = Z_i - \theta_0.
+    \]
+  </p>
+
+  <h3>Comments and Interpretation</h3>
+
+  <ul>
+    <li>Test uses both <strong>signs and magnitudes</strong> (via ranks), unlike sign test.</li>
+    <li>Measures shift in <strong>location parameter</strong>.</li>
+    <li>Requires symmetry but not identical distributions.</li>
+  </ul>
+
+  <h3>Consistency</h3>
+
+  <ul>
+    <li>For \( (\theta>0) \): reject with probability \( (\to 1) \).</li>
+    <li>For \( (\theta<0) \): similarly.</li>
+  </ul>
+
+  <p>
+    Equivalent formulation:
+  </p>
+
+  <p>
+    \[
+    \theta^* = P(Z_1+Z_2>0) - \frac{1}{2}.
+    \]
+  </p>
+
+  <p>
+    Consistency holds when \( (\theta^* \neq 0) \).
+  </p>
+
+  <h3>Efficiency</h3>
+
+  <p>
+    Wilcoxon signed rank test is asymptotically more efficient than the sign test under many distributions and is close to optimal under symmetric distributions.
+  </p>
+
+  <h3>Key Structural Insight</h3>
+
+  <ul>
+    <li>Statistic is a <strong>linear rank statistic</strong>.</li>
+    <li>Invariant under monotone transformations of \( (|Z_i|) \).</li>
+    <li>Distribution-free due to symmetry and random sign structure.</li>
+  </ul>
+
+</div>
 
 
 
