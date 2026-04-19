@@ -51,6 +51,11 @@
       <li><a href="#ksd-vs-density">KSD vs Density-Based Outlier Detection</a></li>
       <li><a href="#kernel-theory">Kernel Functions and RKHS Foundations</a></li>
       <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
+      <li><a href="#wilcoxon-ci">Distribution-Free Confidence Interval (Tukey–Wilcoxon Method)</a></li>
+      <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
+      <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
+      <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
+      
     </ul>
   </div>
 
@@ -1245,7 +1250,139 @@
 
 
 
-  
+
+
+
+
+
+
+
+
+
+
+      
+
+<div class="card" id="wilcoxon-ci">
+
+  <h2>Distribution-Free Confidence Interval (Tukey–Wilcoxon Method)</h2>
+
+  <p>
+    Assume the paired-difference model \( (Z_i=\theta+e_i) \) with symmetry (A1–A3). A two-sided \( (1-\alpha) \) confidence interval is constructed using the Wilcoxon signed rank statistic \( (T^+) \).
+  </p>
+
+  <h3>Procedure</h3>
+
+  <ol>
+    <li>
+      Determine an integer \( (C_\alpha) \) such that
+      \[
+      P_0\left(C_\alpha \le T^+ \le \frac{n(n+1)}{2}-C_\alpha\right)=1-\alpha.
+      \]
+    </li>
+
+    <li>
+      Form all pairwise averages:
+      \[
+      W^{(1)} \le \cdots \le W^{(M)}, \quad W^{(k)}=\frac{Z_i+Z_j}{2}, \; i\le j,\; M=\frac{n(n+1)}{2}.
+      \]
+    </li>
+
+    <li>
+      Define endpoints:
+      \[
+      \theta_L = W^{(C_\alpha)}, \quad \theta_U = W^{(M+1-C_\alpha)}.
+      \]
+    </li>
+  </ol>
+
+  <p>
+    Then
+  </p>
+
+  <p>
+    \[
+    P_\theta(\theta_L < \theta < \theta_U)=1-\alpha.
+    \]
+  </p>
+
+  <h3>Justification</h3>
+
+  <p>
+    The interval corresponds to inversion of the two-sided Wilcoxon signed rank test: it contains all \( (\theta_0) \) not rejected by the level-\( (\alpha) \) test based on \( (Z_i-\theta_0) \). The coverage follows from the distribution-free property of \( (T^+) \) under symmetry.
+  </p>
+
+  <h3>Graphical construction (Tukey)</h3>
+
+  <ul>
+    <li>Plot ordered \( (Z_i) \).</li>
+    <li>Let \( (A=\min Z_i) \), \( (B=\max Z_i) \), and midpoint \( (C=(A+B)/2) \).</li>
+    <li>Construct triangle \( (ADB) \) and draw parallels through data points.</li>
+    <li>Intersections yield \( (W^{(C_\alpha)}) \) and \( (W^{(M+1-C_\alpha)}) \), corresponding to lower and upper bounds.</li>
+  </ul>
+
+  <h3>Large-sample approximation</h3>
+
+  <p>
+    \[
+    C_\alpha \approx \frac{n(n+1)}{4} - z_{\alpha/2}\sqrt{\frac{n(n+1)(2n+1)}{24}},
+    \]
+  </p>
+
+  <p>
+    rounded to nearest integer.
+  </p>
+
+  <h3>Interpretation and properties</h3>
+
+  <ul>
+    <li>
+      The interval consists of all \( (\theta_0) \) accepted by the two-sided signed rank test.
+    </li>
+
+    <li>
+      The midpoint
+      \[
+      \frac{W^{(C_\alpha)} + W^{(M+1-C_\alpha)}}{2}
+      \]
+      serves as a natural estimator of \( (\theta) \).
+    </li>
+
+    <li>
+      Under A1–A3, coverage probability is exactly \( (1-\alpha) \), independent of the underlying distributions (distribution-free).
+    </li>
+
+    <li>
+      Under stronger assumption (identically distributed errors), asymptotic standard error of the midpoint estimator can be consistently estimated via normal approximation.
+    </li>
+  </ul>
+
+  <h3>Key characteristics</h3>
+
+  <ul>
+    <li>Nonparametric, distribution-free over symmetric continuous populations</li>
+    <li>Uses both signs and magnitudes (via ranks)</li>
+    <li>Robust to outliers relative to parametric intervals</li>
+    <li>Equivalent to inversion of Wilcoxon signed rank test</li>
+    <li>Efficient under symmetry assumptions</li>
+  </ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
 </section>
 
 
