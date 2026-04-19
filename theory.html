@@ -53,7 +53,7 @@
       <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
       <li><a href="#wilcoxon-ci">Distribution-Free Confidence Interval (Tukey–Wilcoxon Method)</a></li>
       <li><a href="#test-comparison">Choice of Statistical Test</a></li>
-      <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
+      <li><a href="#ksd-comparison">KSD: Original Framework vs Project Implementation</a></li>
       <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
       
     </ul>
@@ -1350,6 +1350,151 @@
   </p>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     <div class="card" id="ksd-comparison">
+
+  <h2>KSD: Original Framework vs Project Implementation</h2>
+
+  <h3>Original KSD Framework (Chen et al.)</h3>
+
+  <p><strong>Definition:</strong></p>
+
+  <p>
+    \[
+    D_\kappa(x;X)=1-\left|\frac{1}{|X(x)|-1}\sum_{y\in X\setminus{x}}\frac{\kappa(x,x)+\kappa(y,z)-\kappa(x,y)-\kappa(x,z)}{\delta_\kappa(x,y)\delta_\kappa(x,z)}\right|,
+    \]
+  </p>
+
+  <p>
+    where \( \delta_\kappa(x,y)=\sqrt{\kappa(x,x)+\kappa(y,y)-2\kappa(x,y)} \).
+  </p>
+
+  <ul>
+    <li>Range: \( [0,1] \)</li>
+    <li>Captures nonlinear geometry via kernel mapping</li>
+    <li>Computational cost: \( O(n^2) \)</li>
+  </ul>
+
+  <p><strong>Outlier Rule:</strong></p>
+
+  <p>
+    \[
+    D_\kappa(x;X) \le t
+    \]
+  </p>
+
+  <p><strong>Key Feature:</strong></p>
+
+  <ul>
+    <li>Threshold \( t \) calibrated using theoretical bounds on False Alarm Probability (FAP)</li>
+  </ul>
+
+  <p><strong>Theoretical Guarantee:</strong></p>
+
+  <p>
+    \[
+    P(\text{FAP}) \le \frac{1}{\sqrt{1-r^2}} + \sqrt{\frac{\ln(1/\delta)}{2n}}
+    \]
+  </p>
+
+  <ul>
+    <li>Provides probabilistic control over false detections</li>
+    <li>Requires knowledge (or bound) on contamination fraction \( r \)</li>
+  </ul>
+
+  <h3>Project Implementation (SM-4)</h3>
+
+  <p>
+    In this project, the KSD framework is applied without modification to the core definition, but with changes in data, thresholding, and evaluation methodology. :contentReference[oaicite:0]{index=0}
+  </p>
+
+  <p><strong>Key Modifications:</strong></p>
+
+  <ul>
+    <li>Dataset: real-world structured data (NHANES), not synthetic benchmarks</li>
+    <li>Baseline comparison: Mahalanobis depth (MD) added</li>
+    <li>No contamination model assumed</li>
+  </ul>
+
+  <p><strong>Threshold Selection:</strong></p>
+
+  <ul>
+    <li>Original: theoretical calibration via FAP bounds</li>
+    <li>Project: empirical quantile (e.g. lowest 5% depth)</li>
+  </ul>
+
+  <div class="highlight">
+    Threshold becomes data-dependent and heuristic; no theoretical FAP guarantee.
+  </div>
+
+  <p><strong>Evaluation Method:</strong></p>
+
+  <ul>
+    <li>Original: detection metrics (AUC, FAP, detection rate)</li>
+    <li>Project: statistical validation using Wilcoxon rank-sum test on clinical variables</li>
+  </ul>
+
+  <p>
+    Outliers are evaluated based on whether they differ significantly from the main population in downstream variables.
+  </p>
+
+  <h3>Consequences of Modifications</h3>
+
+  <ul>
+    <li>No formal control of false alarm probability</li>
+    <li>Threshold sensitive to sample distribution</li>
+    <li>Evaluation becomes indirect (via statistical significance)</li>
+  </ul>
+
+  <h3>Structural Comparison</h3>
+
+  <ul>
+    <li><strong>Original:</strong> theoretically grounded, controlled experiments, calibrated thresholds</li>
+    <li><strong>Project:</strong> application-driven, real data, heuristic thresholds, statistical validation</li>
+  </ul>
+
+  <h3>Key Insight</h3>
+
+  <div class="highlight">
+    The project trades theoretical guarantees (FAP control) for practical applicability, using KSD as a tool for identifying structurally meaningful outliers in real-world data.
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
