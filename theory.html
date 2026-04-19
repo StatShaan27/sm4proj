@@ -54,7 +54,7 @@
       <li><a href="#wilcoxon-ci">Distribution-Free Confidence Interval (Tukey–Wilcoxon Method)</a></li>
       <li><a href="#test-comparison">Choice of Statistical Test</a></li>
       <li><a href="#ksd-comparison">KSD: Original Framework vs Project Implementation</a></li>
-      <li><a href="#wilcoxon">Wilcoxon Signed Rank Test</a></li>
+      <li><a href="#nhanes">NHANES-Based KSD vs MD Outlier Detection</a></li>
       
     </ul>
   </div>
@@ -1490,7 +1490,172 @@
 
 
 
+<div class="card" id="nhanes">
 
+  <h2>NHANES-Based KSD vs MD Outlier Detection</h2>
+
+  <h3>1. Dataset, Population, and Feature Construction</h3>
+
+  <p>
+    The analysis is based on <strong>NHANES (National Health and Nutrition Examination Survey)</strong> data from three waves: <strong>2015–2016, 2017–2018, 2021–2023</strong>, each treated as an independent cohort. NHANES is a <strong>nationally representative, structured survey dataset</strong> collected by CDC/NCHS, combining laboratory measurements, demographics, and clinical variables. :contentReference[oaicite:0]{index=0}
+  </p>
+
+  <h4>Cohort Definition</h4>
+
+  <ul>
+    <li>Age restriction: <strong>≥ 18 years</strong></li>
+    <li>BMI restriction: <strong>18.5 ≤ BMI ≤ 25</strong></li>
+    <li>Fasting requirement: valid fasting status</li>
+    <li>Missing data removed</li>
+  </ul>
+
+  <p>
+    After filtering: approximately <strong>600–850 subjects per cohort</strong>.
+  </p>
+
+  <div class="highlight">
+    Focus: hidden metabolic risk in normal BMI individuals.
+  </div>
+
+  <h4>Selected Features</h4>
+
+  <ul>
+    <li>Fasting Glucose (mg/dL)</li>
+    <li>HbA1c (%)</li>
+    <li>Triglycerides (mg/dL)</li>
+    <li>HDL Cholesterol (mg/dL)</li>
+  </ul>
+
+  <h3>2. Objective and Hypothesis Structure</h3>
+
+  <p>
+    Identify multivariate outliers in biomarker space among normal-BMI individuals.
+  </p>
+
+  <p>
+    \[
+    \text{KSD outliers} \Rightarrow \text{more clinically extreme profiles than MD outliers}
+    \]
+  </p>
+
+  <h3>3. Data Preprocessing Pipeline</h3>
+
+  <ul>
+    <li>Filtering (age, BMI, fasting, missing)</li>
+    <li>Sanity checks (biological plausibility)</li>
+    <li>
+      Normalization:
+      \[
+      X_{ij}^{*} = \frac{X_{ij} - \mu_j}{\sigma_j}
+      \]
+    </li>
+    <li>Numeric features only</li>
+  </ul>
+
+  <h3>4. Outlier Detection Methods</h3>
+
+  <h4>(A) Mahalanobis Depth</h4>
+
+  <p>
+    \[
+    D_{\text{MD}}(x) = \left(1 + (x-\mu)^T \Sigma^{-1}(x-\mu)\right)^{-1}
+    \]
+  </p>
+
+  <p>
+    Outliers: top 5% of distances.
+  </p>
+
+  <h4>(B) Kernelized Spatial Depth</h4>
+
+  <p>
+    \[
+    \kappa(x,y) = \exp\left(-\frac{|x-y|^2}{2\sigma^2}\right)
+    \]
+  </p>
+
+  <p>
+    Outliers: bottom 5% depth.
+  </p>
+
+  <h3>5. Empirical Results</h3>
+
+  <table>
+    <tr><th>Cohort</th><th>Group</th><th>Glucose</th><th>HbA1c</th><th>TG</th><th>HDL</th></tr>
+    <tr><td>2015–16</td><td>KSD-only</td><td>170</td><td>8.2</td><td>113</td><td>59.8</td></tr>
+    <tr><td></td><td>MD-only</td><td>104</td><td>6.6</td><td>90.5</td><td>74.8</td></tr>
+    <tr><td>2017–18</td><td>KSD-only</td><td>175</td><td>7.4</td><td>136</td><td>52.5</td></tr>
+    <tr><td></td><td>MD-only</td><td>106</td><td>5.0</td><td>127</td><td>85.0</td></tr>
+    <tr><td>2021–23</td><td>KSD-only</td><td>169</td><td>7.3</td><td>152</td><td>42.5</td></tr>
+    <tr><td></td><td>MD-only</td><td>101</td><td>5.0</td><td>104</td><td>96.3</td></tr>
+  </table>
+
+  <h3>6. Interpretation</h3>
+
+  <p>
+    \[
+    \text{KSD outliers} \approx \text{clinically extreme profiles}
+    \]
+  </p>
+
+  <p>
+    \[
+    \text{MD outliers} \approx \text{moderate deviations}
+    \]
+  </p>
+
+  <h3>7. Visualization and PCA</h3>
+
+  <ul>
+    <li>PC1: glycemic axis</li>
+    <li>PC2: lipid contrast</li>
+    <li>KSD outliers at extremes</li>
+  </ul>
+
+  <h3>8. Statistical Testing</h3>
+
+  <p>
+    \[
+    H_0: \text{KSD and MD groups have same distribution}
+    \]
+  </p>
+
+  <p>
+    Wilcoxon rank-sum test used.
+  </p>
+
+  <p>
+    p-values: <strong>0.002–0.014</strong>
+  </p>
+
+  <h3>9. Methodological Insights</h3>
+
+  <ul>
+    <li>Captures nonlinear structure</li>
+    <li>Clinically interpretable</li>
+    <li>Robust statistical validation</li>
+  </ul>
+
+  <h3>10. Practical Implications</h3>
+
+  <ul>
+    <li>KSD better for nonlinear biomedical data</li>
+    <li>MD limited to elliptical structure</li>
+  </ul>
+
+  <h3>11. Conceptual Pipeline</h3>
+
+  <p>
+    Data → Filtering → Standardization → Depth → Threshold → Testing
+  </p>
+
+  <h3>12. Core Conclusion</h3>
+
+  <div class="highlight">
+    KSD identifies more extreme metabolic abnormalities than MD and is better suited for real-world, non-Gaussian data.
+  </div>
+
+</div>
 
 
 
